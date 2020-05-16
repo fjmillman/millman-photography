@@ -1,12 +1,20 @@
 {
-  "extends": ["airbnb-typescript-prettier"],
+  "extends": [
+    "airbnb-typescript-prettier",
+    "plugin:jest/recommended"
+  ],
+  "env": {
+    "jest/globals": true
+  },
+  "plugins": ["jest"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
         "devDependencies": [
-          "**/*.stories.tsx"
+          "**/*.stories.tsx",
+          "**/*.(text|spec).tsx"
         ]
       }
     ]
