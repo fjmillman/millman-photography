@@ -9,6 +9,16 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {
     "next": "9.4.0",
     "react": "16.13.1",
@@ -26,6 +36,8 @@
     "babel-loader": "^8.1.0",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-typescript-prettier": "^2.1.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
     "typescript": "^3.9.2"
   }
