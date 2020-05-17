@@ -1,0 +1,62 @@
+type User {
+  id: ID!
+  emailAddress: String! @unique
+  password: String!
+  token: String!
+  isAdmin: Boolean!
+  posts: [Post!] @relation
+  images: [Image!] @relation
+  galleries: [Gallery!] @relation
+}
+
+type Tag {
+  id: ID!
+  name: String!
+  slug: String! @unique
+  posts: [Post!] @relation
+  galleries: [Gallery!] @relation
+}
+
+type Image {
+  id: ID!
+  title: String!
+  caption: String!
+  filename: String! @unique
+  isShowcase: Boolean!
+  user: User!
+  posts: [Post!] @relation
+  galleries: [Gallery!] @relation
+}
+
+enum Status {
+    DRAFT
+    PUBLISHED
+    ARCHIVED
+}
+
+type Post {
+  id: ID!
+  title: String!
+  slug: String! @unique
+  description: String!
+  body: String!
+  status: Status!
+  coverImage: Image!
+  user: User!
+  images: [Image!] @relation
+  tags: [Tag!] @relation
+}
+
+type Gallery {
+  id: ID!
+  title: String!
+  slug: String! @unique
+  description: String!
+  body: String!
+  status: Status!
+  isShowcase: Boolean!
+  coverImage: Image!
+  user: User!
+  images: [Image!] @relation
+  tags: [Tag!] @relation
+}

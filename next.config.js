@@ -1,0 +1,6 @@
+module.exports = {
+  env: {
+    API_URL: 'http://localhost:3000/api',
+    // USE_FIXTURES: true,
+  },
+};

@@ -1,9 +1,10 @@
 module.exports = {
   testEnvironment: "jsdom",
   preset: "ts-jest",
-  setupFilesAfterEnv: ["<rootDir>/.jest/setupTests.ts"],
+  setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': "ts-jest",
+    "^.+\\.mdx$": "@storybook/addon-docs/jest-transform-mdx",
   },
   transformIgnorePatterns: ['/node_modules/'],
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|jsx|ts|tsx)?$",
@@ -11,7 +12,7 @@ module.exports = {
   testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
   globals: {
     "ts-jest": {
-      tsConfig: "<rootDir>/.jest/tsconfig.jest.json",
+      tsConfig: "<rootDir>/tsconfig.jest.json",
     },
   },
   collectCoverageFrom: [
