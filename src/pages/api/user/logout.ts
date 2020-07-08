@@ -18,7 +18,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  await faunaClient(faunaSecret).query(q.Logout(false));
+  try {
+    await faunaClient(faunaSecret).query(q.Logout(false));
+  } catch (err) {
+    res.status(401).end();
+  }
 
   const cookieSerialized = cookie.serialize(FAUNA_SECRET_COOKIE, '', {
     sameSite: 'lax',

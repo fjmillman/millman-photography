@@ -1,12 +1,11 @@
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useState, FC } from 'react';
+import { FC } from 'react';
 
 import Modal from '../Modal';
 import LoginForm from '../../Forms/LoginForm';
 import { LoginData } from '../../../store/User/Login/Types';
-import { login } from '../../../store/User/Login/Effects';
-import { useThunkDispatch } from '../../../store';
 import Message, { MessageType } from '../../Message';
+import useLogin from './hooks/useLogin';
 
 const LOGIN_FORM_ID = 'login-form';
 
@@ -16,21 +15,18 @@ interface Props {
 }
 
 const LoginModal: FC<Props> = ({ isOpen, onClose }: Props) => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const dispatch = useThunkDispatch();
+  const {
+    state: { error },
+    actions: { handleLogin },
+  } = useLogin();
 
   const handleSubmit = async (loginData: LoginData) => {
-    setErrorMessage(null);
-
     try {
-      const result = await dispatch(login(loginData));
-
+      const result = await handleLogin(loginData);
       unwrapResult(result);
-
       onClose();
     } catch (err) {
-      setErrorMessage(err.message);
+      // no-op
     }
   };
 
@@ -42,14 +38,10 @@ const LoginModal: FC<Props> = ({ isOpen, onClose }: Props) => {
         <h1>Log in with your email</h1>
       </Modal.Header>
       <Modal.Content>
-        <LoginForm
-          formId={formId}
-          onSubmit={handleSubmit}
-          isError={!!errorMessage}
-        />
-        {errorMessage && (
+        <LoginForm formId={formId} onSubmit={handleSubmit} isError={!!error} />
+        {error && (
           <Message type={MessageType.ERROR}>
-            <p>{errorMessage}</p>
+            <p>{error}</p>
           </Message>
         )}
       </Modal.Content>

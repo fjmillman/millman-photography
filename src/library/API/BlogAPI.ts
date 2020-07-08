@@ -1,10 +1,9 @@
-import { getApiUrl } from '../constants';
 import { PostSearchFilters } from '../../store/Blog/Types';
 import { BlogFixtures } from '../Fixtures';
 import { responseWrap, promiseWrap } from '../utils';
 
 const BlogAPI = (useFixtures: boolean) => {
-  const getUrl = () => `${getApiUrl()}/blog`;
+  const getUrl = () => 'api/blog';
 
   const fetchPosts = (filters: PostSearchFilters) => {
     if (useFixtures) {

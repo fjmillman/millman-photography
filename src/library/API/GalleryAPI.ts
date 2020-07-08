@@ -1,10 +1,9 @@
 import { GallerySearchFilters } from '../../store/Galleries/Types';
 import { GalleryFixtures } from '../Fixtures';
 import { responseWrap, promiseWrap } from '../utils';
-import { getApiUrl } from '../constants';
 
 const GalleryAPI = (useFixtures: boolean) => {
-  const getUrl = () => `${getApiUrl()}/gallery`;
+  const getUrl = () => 'api/gallery';
 
   const fetchGalleries = (filters: GallerySearchFilters) => {
     if (useFixtures) {

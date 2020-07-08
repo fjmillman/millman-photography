@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import Router from 'next/router';
 
@@ -19,14 +20,12 @@ export const login = createAsyncThunk<
   try {
     response = await thunkApi.extra.api.user.login(loginData);
   } catch (err) {
-    thunkApi.rejectWithValue(err.message);
-    return;
+    return thunkApi.rejectWithValue(err.message);
   }
 
   if (!response.ok) {
-    const error = (await response.json()) as string;
-    thunkApi.rejectWithValue(error);
-    return;
+    const data = (await response.json()) as { error: string };
+    return thunkApi.rejectWithValue(data.error);
   }
 
   sessionStorage.setItem('isLoggedIn', 'true');
@@ -73,14 +72,14 @@ export const logout = createAsyncThunk<
   try {
     response = await thunkApi.extra.api.user.logout();
   } catch (err) {
-    thunkApi.rejectWithValue(err.message);
-    return;
+    sessionStorage.setItem('isLoggedIn', 'false');
+    return thunkApi.rejectWithValue(err.message);
   }
 
   if (!response.ok) {
     const error = 'There was an issue trying to log you out.';
-    thunkApi.rejectWithValue(error);
-    return;
+    sessionStorage.setItem('isLoggedIn', 'false');
+    return thunkApi.rejectWithValue(error);
   }
 
   sessionStorage.setItem('isLoggedIn', 'false');
