@@ -11,7 +11,8 @@ export const fetchPosts = createAsyncThunk<
   BlogPage,
   void,
   {
-    state: never;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    state: any;
     extra: { api: APIType };
     rejectValue: string;
   }
