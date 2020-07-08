@@ -1,0 +1,105 @@
+Create(
+  Collection("User"),
+  {
+    credentials: { password: "abc123" },
+    data: {
+      email: "test.user@millmanphotography.co.uk",
+    },
+  }
+);
+
+Create(
+  Collection("Tag"),
+  {
+    data: {
+      slug: "landscapes",
+      name: "Landscapes",
+    },
+  }
+);
+
+Create(
+  Collection("Image"),
+  {
+    data: {
+      slug: "silhouette-of-windsor-castle",
+      caption: "Silhouette of Windsor Castle",
+      url: "https://scontent.flhr3-2.fna.fbcdn.net/v/t1.0-9/90537275_139702654226323_8533307776074514432_o.jpg?_nc_cat=102&_nc_sid=dd9801&_nc_oc=AQn4FthYuBZ-irZFo2SC_ACA0CO4Pz1qWW8r9fnC-OUHuY-i7pH4Hse_4sn4eimdRIYHOH6zOVNCgm4DAxyZCIQC&_nc_ht=scontent.flhr3-2.fna&oh=a3d92a4c76b0af862d0653f549c0eea1&oe=5F2A9906",
+    },
+  }
+);
+
+Create(
+  Collection("image_tags"),
+  {
+    data: {
+      image: Select("ref", Get(Match(Index("images_by_slug"), "silhouette-of-windsor-castle"))),
+      tag: Select("ref", Get(Match(Index("tags_by_slug"), "landscapes")))
+    }
+  }
+);
+
+Create(
+  Collection("Gallery"),
+  {
+    data: {
+      title: "Landscapes",
+      slug: "landscapes",
+      description: "The beauty of the natural world around us",
+      status: "published",
+    },
+  }
+);
+
+Create(
+  Collection("gallery_images"),
+  {
+    data: {
+      gallery: Select("ref", Get(Match(Index("galleries_by_slug"), "landscapes"))),
+      image: Select("ref", Get(Match(Index("images_by_slug"), "silhouette-of-windsor-castle")))
+    }
+  }
+);
+
+Create(
+  Collection("gallery_tags"),
+  {
+    data: {
+      gallery: Select("ref", Get(Match(Index("galleries_by_slug"), "landscapes"))),
+      tag: Select("ref", Get(Match(Index("tags_by_slug"), "landscapes")))
+    }
+  }
+);
+
+Create(
+  Collection("Post"),
+  {
+    data: {
+      title: "A Windsor Sunrise",
+      slug: "a-windsor-sunrise",
+      description: "What a stunning sunrise I managed to catch this morning!",
+      body: "I still can't believe my eyes when I see the photos from this morning's sunrise shoot!",
+      status: "published",
+    },
+  }
+);
+
+Create(
+  Collection("post_images"),
+  {
+    data: {
+      post: Select("ref", Get(Match(Index("posts_by_slug"), "a-windsor-sunrise"))),
+      image: Select("ref", Get(Match(Index("images_by_slug"), "silhouette-of-windsor-castle")))
+    }
+  }
+);
+
+Create(
+  Collection("post_tags"),
+  {
+    data: {
+      post: Select("ref", Get(Match(Index("posts_by_slug"), "a-windsor-sunrise"))),
+      tag: Select("ref", Get(Match(Index("tags_by_slug"), "landscapes")))
+    }
+  }
+);

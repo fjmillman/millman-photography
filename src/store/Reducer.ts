@@ -1,13 +1,13 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { useSelector, TypedUseSelectorHook } from 'react-redux';
 
 import loginReducer, { name as loginKey } from './User/Login/Slice';
+import blogReducer, { name as blogKey } from './Blog/Slice';
+import galleriesReducer, { name as galleriesKey } from './Galleries/Slice';
 
 const rootReducer = combineReducers({
   [loginKey]: loginReducer,
+  [blogKey]: blogReducer,
+  [galleriesKey]: galleriesReducer,
 });
-
-export type RootState = ReturnType<typeof rootReducer>;
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export default rootReducer;

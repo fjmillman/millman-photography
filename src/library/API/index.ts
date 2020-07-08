@@ -1,18 +1,21 @@
 import UserAPI from './UserAPI';
+import BlogAPI from './BlogAPI';
+import GalleryAPI from './GalleryAPI';
+import { useFixtures as isUseFixtures } from '../constants';
 
-class API {
-  private userAPI: UserAPI;
+const API = (useFixtures: boolean) => {
+  const user = UserAPI(useFixtures);
+  const blog = BlogAPI(useFixtures);
+  const gallery = GalleryAPI(useFixtures);
 
-  constructor(useFixtures: boolean) {
-    this.userAPI = new UserAPI(useFixtures);
-  }
+  return {
+    user,
+    blog,
+    gallery,
+  };
+};
 
-  public getUserAPI() {
-    return this.userAPI;
-  }
-}
-
-const api = new API(process.env.USE_FIXTURES !== undefined);
+const api = API(isUseFixtures);
 
 export type APIType = typeof api;
 

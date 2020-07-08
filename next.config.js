@@ -1,6 +1,6 @@
-module.exports = {
-  env: {
-    API_URL: 'http://localhost:3000/api',
-    // USE_FIXTURES: true,
-  },
-};
+const withPlugins = require('next-compose-plugins');
+const optimizedImages = require('next-optimized-images');
+
+module.exports = withPlugins([
+  [optimizedImages],
+]);

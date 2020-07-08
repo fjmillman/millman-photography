@@ -1,0 +1,53 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { action } from '@storybook/addon-actions';
+
+import Lozenge, { LozengeType } from '.';
+
+<Meta title="Components/Lozenge" component={Lozenge} />
+
+# Lozenge
+
+This is our standard lozenge component
+
+<Preview>
+  <Story name="Default">
+    <Lozenge>
+      <p>Default Lozenge</p>
+    </Button>
+  </Story>
+</Preview>
+
+You can specify the following lozenge types to modify the look
+
+<Preview>
+  <Story name="Primary">
+    <Button type={LozengeType.PRIMARY}>
+      <p>Primary Lozenge</p>
+    </Button>
+  </Story>
+  <Story name="Secondary">
+    <Button type={LozengeType.SECONDARY}>
+      <p>Secondary Lozenge</p>
+    </Button>
+  </Story>
+</Preview>
+
+There's even 3 special lozenges to denote certain states: success, warning, and error.
+
+<Preview>
+  <Story name="Success">
+    <Button type={LozengeType.SUCCESS}>
+      <p>Success Lozenge</p>
+    </Button>
+  </Story>
+  <Story name="Warning">
+    <Button type={LozengeType.WARNING}>
+      <p>Warning Lozenge</p>
+    </Button>
+  </Story>
+  <Story name="Error">
+    <Button type={LozengeType.ERROR}>
+      <p>Error Lozenge</p>
+    </Button>
+  </Story>
+</Preview>

@@ -1,0 +1,18 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { action } from '@storybook/addon-actions';
+
+import IconLinkButton from '.';
+
+<Meta title="Components/Buttons/Icon Link Button" component={IconLinkButton} />
+
+# Icon Link Button
+
+This is our standard icon link button for dealing with links with icons
+
+<Preview>
+  <Story name="Default">
+    <IconLinkButton href="">
+      <Img src={MenuIcon} />
+    </IconLinkButton>
+  </Story>
+</Preview>
