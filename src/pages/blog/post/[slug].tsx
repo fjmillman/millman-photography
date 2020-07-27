@@ -1,4 +1,6 @@
 import { NextPage } from 'next';
+import renderToString from 'next-mdx-remote/render-to-string';
+import hydrate from 'next-mdx-remote/hydrate';
 
 import wrapper from '../../../store';
 import { fetchPostSlugs, fetchPost } from '../../../controllers/BlogController';
@@ -11,15 +13,18 @@ import { PostData } from '../../../controllers/Types';
 
 interface Props {
   post: PostData;
+  mdxSource: object;
 }
 
-const Post: NextPage<Props> = ({ post: { title, description, body } }) => {
+const Post: NextPage<Props> = ({ post: { title, description }, mdxSource }) => {
+  const body = hydrate(mdxSource);
+
   return (
     <Page title={title}>
       <PageHeader title={title} />
       <div>
         <p>{description}</p>
-        <p>{body}</p>
+        {body}
       </div>
     </Page>
   );
@@ -52,9 +57,12 @@ export const getStaticProps = wrapper.getStaticProps(async ({ params }) => {
     throw new Error('Post could not be found');
   }
 
+  const mdxSource = await renderToString(post.body);
+
   return {
     props: {
       post,
+      mdxSource,
     },
   };
 });
