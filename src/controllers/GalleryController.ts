@@ -75,7 +75,7 @@ export const fetchGalleries = async (filters: GallerySearchFilters) => {
 
   return {
     galleries: response.data,
-    after: response.after ? response.after[3].id : null ?? null,
+    after: response.after ? (response.after as any)[3].id : null ?? null,
   };
 };
 
