@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Image from 'react-optimized-image';
 
-import Icon from '../../icons/chevron-left.svg';
+import Icon from 'icons/chevron-left.svg';
 
 const ServicesSection: FC = () => (
   <section>

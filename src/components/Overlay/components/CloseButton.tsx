@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import Image from 'react-optimized-image';
 
+import CloseIcon from 'icons/close-icon.svg';
 import IconButton from '../../Buttons/IconButton';
-import CloseIcon from '../../../icons/close-icon.svg';
 
 interface Props {
   onClick: () => void;

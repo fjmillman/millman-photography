@@ -1,5 +1,5 @@
+import { LoginData } from 'store/User/Login/Types';
 import { promiseWrap, responseWrap, errorResponseWrap } from '../utils';
-import { LoginData } from '../../store/User/Login/Types';
 
 let isLoggedIn = false;
 
@@ -10,6 +10,8 @@ const testUser = {
   email: 'test.user@millmanphotography.co.uk',
   password: 'abc123',
 };
+
+export const userFixtures = [testUser];
 
 const login = ({ email, password }: LoginData) => {
   if (email !== testUser.email || password !== testUser.password) {

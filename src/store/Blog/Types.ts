@@ -1,5 +1,5 @@
+import { PostData } from 'controllers/Types';
 import { Status } from '../Types';
-import { PostData } from '../../controllers/Types';
 
 export interface PostSearchFilters {
   size?: number;

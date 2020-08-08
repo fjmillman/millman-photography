@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
+import { GalleriesPage } from 'types';
 import { GalleriesState } from './Types';
-import { GalleriesPage } from '../../types';
 import { fetchGalleries } from './Effects';
 
 export const name = 'galleries';

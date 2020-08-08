@@ -1,19 +1,19 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
 
-import { PostData } from '../controllers/Types';
-import PageHeader from '../components/PageHeader';
-import Page from '../components/Page';
-import LinkButton from '../components/Buttons/LinkButton';
-import { fetchPosts } from '../controllers/BlogController';
-import wrapper from '../store';
-import { PostSearchFilters } from '../store/Blog/Types';
-import { Status } from '../store/Types';
-import RowCollection from '../components/RowCollection';
-import PostPreview from '../components/PostPreview';
-import { BlogFixtures } from '../library/Fixtures';
-import { useFixtures } from '../library/constants';
-import { promiseWrap } from '../library/utils';
+import { PostData } from 'controllers/Types';
+import PageHeader from 'components/PageHeader';
+import Page from 'components/Page';
+import LinkButton from 'components/Buttons/LinkButton';
+import { fetchPosts } from 'controllers/BlogController';
+import wrapper from 'store';
+import { PostSearchFilters } from 'store/Blog/Types';
+import { Status } from 'store/Types';
+import RowCollection from 'components/RowCollection';
+import PostPreview from 'components/PostPreview';
+import { BlogFixtures } from 'library/Fixtures';
+import { useFixtures } from 'library/constants';
+import { promiseWrap } from 'library/utils';
 
 interface Props {
   posts: PostData[];

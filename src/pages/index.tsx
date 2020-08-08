@@ -1,21 +1,21 @@
 import { NextPage } from 'next';
 
-import { GalleryData, PostData } from '../controllers/Types';
-import wrapper from '../store';
-import { PostSearchFilters } from '../store/Blog/Types';
-import { fetchPosts } from '../controllers/BlogController';
-import { GallerySearchFilters } from '../store/Galleries/Types';
-import { fetchGalleries } from '../controllers/GalleryController';
-import Page from '../components/Page';
-import BlogSection from '../components/Sections/BlogSection';
-import GallerySection from '../components/Sections/GallerySection';
-import AboutMeSection from '../components/Sections/AboutMeSection';
-import HeroSection from '../components/Sections/HeroSection';
-import ServicesSection from '../components/Sections/ServicesSection';
-import { Status } from '../store/Types';
-import { useFixtures } from '../library/constants';
-import { BlogFixtures, GalleryFixtures } from '../library/Fixtures';
-import { promiseWrap } from '../library/utils';
+import { GalleryData, PostData } from 'controllers/Types';
+import wrapper from 'store';
+import { PostSearchFilters } from 'store/Blog/Types';
+import { fetchPosts } from 'controllers/BlogController';
+import { GallerySearchFilters } from 'store/Galleries/Types';
+import { fetchGalleries } from 'controllers/GalleryController';
+import Page from 'components/Page';
+import BlogSection from 'components/Sections/BlogSection';
+import GallerySection from 'components/Sections/GallerySection';
+import AboutMeSection from 'components/Sections/AboutMeSection';
+import HeroSection from 'components/Sections/HeroSection';
+import ServicesSection from 'components/Sections/ServicesSection';
+import { Status } from 'store/Types';
+import { useFixtures } from 'library/constants';
+import { BlogFixtures, GalleryFixtures } from 'library/Fixtures';
+import { promiseWrap } from 'library/utils';
 
 interface Props {
   latestPosts: PostData[];

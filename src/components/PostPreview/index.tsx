@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
+import { Tag } from 'controllers/Types';
 import Tags from '../Tags';
 import LinkButton from '../Buttons/LinkButton';
-import { Tag } from '../../controllers/Types';
 
 interface Props {
   title: string;

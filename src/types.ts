@@ -1,6 +1,6 @@
 import { Expr } from 'faunadb';
 
-import { PostData, GalleryData } from './controllers/Types';
+import { PostData, GalleryData } from 'controllers/Types';
 
 export interface Pagination {
   before: string | null;
@@ -13,13 +13,21 @@ export interface FaunaDbPaginationOptions {
   after?: Expr[];
 }
 
+export interface FaunaDbRawData<T> {
+  ref: {
+    id: string;
+  };
+  data: T;
+}
+
 export interface FaunaDbPageResponse<T> {
-  data: {
-    ref: string;
-    data: T;
-  }[];
-  before?: string;
-  after?: string;
+  data: T[];
+  before?: {
+    id: string;
+  };
+  after?: {
+    id: string;
+  };
 }
 
 export interface BlogPage {

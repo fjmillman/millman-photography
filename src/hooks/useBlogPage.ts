@@ -1,9 +1,9 @@
 import { useEffect, useCallback } from 'react';
 
-import { PostData } from '../controllers/Types';
-import { useThunkDispatch, useTypedSelector, RootState } from '../store';
-import { initialisePosts, setCurrentPage } from '../store/Blog/Slice';
-import { fetchPosts } from '../store/Blog/Effects';
+import { PostData } from 'controllers/Types';
+import { useThunkDispatch, useTypedSelector, RootState } from 'store';
+import { initialisePosts, setCurrentPage } from 'store/Blog/Slice';
+import { fetchPosts } from 'store/Blog/Effects';
 
 const useBlogPage = (initialPosts: PostData[], initialAfter: string | null) => {
   const {

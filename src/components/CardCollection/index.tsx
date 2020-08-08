@@ -1,8 +1,8 @@
 import { Attributes } from 'react';
 
+import { Image } from 'controllers/Types';
 import Card from './components/Card';
 import CardContent from './components/CardContent';
-import { Image } from '../../controllers/Types';
 
 interface Props<T> {
   entities: T[];

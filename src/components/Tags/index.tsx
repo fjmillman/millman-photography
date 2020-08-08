@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Tag as TagType } from '../../controllers/Types';
+import { Tag as TagType } from 'controllers/Types';
 import Tag from './Tag';
 
 interface Props {

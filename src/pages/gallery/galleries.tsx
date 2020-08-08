@@ -1,18 +1,18 @@
 import { NextPage } from 'next';
 
-import wrapper from '../../store';
-import parseGallerySearchFiltersFromQuery from '../../utils/parseGallerySearchFiltersFromQuery';
-import PageHeader from '../../components/PageHeader';
-import Page from '../../components/Page';
-import { fetchGalleries } from '../../controllers/GalleryController';
-import PageCollection from '../../components/PageCollection';
-import MiniPreview from '../../components/MiniPreview';
-import { useFixtures } from '../../library/constants';
-import { GalleryFixtures } from '../../library/Fixtures';
-import { promiseWrap } from '../../library/utils';
-import useGalleriesPage from '../../hooks/useGalleriesPage';
-import { GalleriesPage } from '../../types';
-import { GalleryData } from '../../controllers/Types';
+import wrapper from 'store';
+import parseGallerySearchFiltersFromQuery from 'utils/parseGallerySearchFiltersFromQuery';
+import PageHeader from 'components/PageHeader';
+import Page from 'components/Page';
+import { fetchGalleries } from 'controllers/GalleryController';
+import PageCollection from 'components/PageCollection';
+import MiniPreview from 'components/MiniPreview';
+import { useFixtures } from 'library/constants';
+import { GalleryFixtures } from 'library/Fixtures';
+import { promiseWrap } from 'library/utils';
+import useGalleriesPage from 'hooks/useGalleriesPage';
+import { GalleriesPage } from 'types';
+import { GalleryData } from 'controllers/Types';
 
 const Galleries: NextPage<GalleriesPage> = ({ galleries, after }) => {
   const {

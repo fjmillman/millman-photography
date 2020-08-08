@@ -1,4 +1,4 @@
-import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
 import { action } from '@storybook/addon-actions';
 
 import Lozenge, { LozengeType } from '.';
@@ -9,45 +9,45 @@ import Lozenge, { LozengeType } from '.';
 
 This is our standard lozenge component
 
-<Preview>
+<Canvas>
   <Story name="Default">
     <Lozenge>
       <p>Default Lozenge</p>
-    </Button>
+    </Lozenge>
   </Story>
-</Preview>
+</Canvas>
 
 You can specify the following lozenge types to modify the look
 
-<Preview>
+<Canvas>
   <Story name="Primary">
-    <Button type={LozengeType.PRIMARY}>
+    <Lozenge type={LozengeType.PRIMARY}>
       <p>Primary Lozenge</p>
-    </Button>
+    </Lozenge>
   </Story>
   <Story name="Secondary">
-    <Button type={LozengeType.SECONDARY}>
+    <Lozenge type={LozengeType.SECONDARY}>
       <p>Secondary Lozenge</p>
-    </Button>
+    </Lozenge>
   </Story>
-</Preview>
+</Canvas>
 
 There's even 3 special lozenges to denote certain states: success, warning, and error.
 
-<Preview>
+<Canvas>
   <Story name="Success">
-    <Button type={LozengeType.SUCCESS}>
+    <Lozenge type={LozengeType.SUCCESS}>
       <p>Success Lozenge</p>
-    </Button>
+    </Lozenge>
   </Story>
   <Story name="Warning">
-    <Button type={LozengeType.WARNING}>
+    <Lozenge type={LozengeType.WARNING}>
       <p>Warning Lozenge</p>
-    </Button>
+    </Lozenge>
   </Story>
   <Story name="Error">
-    <Button type={LozengeType.ERROR}>
+    <Lozenge type={LozengeType.ERROR}>
       <p>Error Lozenge</p>
-    </Button>
+    </Lozenge>
   </Story>
-</Preview>
+</Canvas>

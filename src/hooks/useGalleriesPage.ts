@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from 'react';
 
-import { GalleryData } from '../controllers/Types';
-import { useThunkDispatch, useTypedSelector, RootState } from '../store';
-import { initialiseGalleries, setCurrentPage } from '../store/Galleries/Slice';
-import { fetchGalleries } from '../store/Galleries/Effects';
+import { GalleryData } from 'controllers/Types';
+import { useThunkDispatch, useTypedSelector, RootState } from 'store';
+import { initialiseGalleries, setCurrentPage } from 'store/Galleries/Slice';
+import { fetchGalleries } from 'store/Galleries/Effects';
 
 const useGalleriesPage = (
   initialGalleries: GalleryData[],

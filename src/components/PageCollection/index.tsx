@@ -1,6 +1,6 @@
+import { Image } from 'controllers/Types';
 import Pagination from '../Pagination';
 import CardCollection from '../CardCollection';
-import { Image } from '../../controllers/Types';
 
 interface Props<T> {
   entities: T[];

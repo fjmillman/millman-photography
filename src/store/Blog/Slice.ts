@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
+import { BlogPage } from 'types';
 import { BlogState } from './Types';
 import { fetchPosts } from './Effects';
-import { BlogPage } from '../../types';
 
 export const name = 'blog';
 

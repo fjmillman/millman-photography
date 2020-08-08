@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { PostData } from '../../controllers/Types';
-import { PostSearchFilters } from '../../store/Blog/Types';
-import { Status } from '../../store/Types';
+import { formatISO, subDays } from 'date-fns';
+
+import { PostData } from 'controllers/Types';
+import { PostSearchFilters } from 'store/Blog/Types';
+import { Status } from 'store/Types';
+import { BlogPage } from 'types';
 import { imageFixtures } from './ImageFixtures';
 import { tagFixtures } from './TagFixtures';
-import { BlogPage } from '../../types';
 
 export const DEFAULT_PAGE_SIZE = 9;
 
-const posts: PostData[] = [
+export const postFixtures: PostData[] = [
   {
     title: 'Draft Post',
     slug: 'draft-post',
@@ -19,6 +21,9 @@ const posts: PostData[] = [
       This is the body of the draft post
     `,
     status: Status.DRAFT,
+    dateCreated: formatISO(new Date()),
+    datePublished: null,
+    dateUpdated: formatISO(new Date()),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -32,6 +37,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 11)),
+    datePublished: formatISO(subDays(new Date(), 10)),
+    dateUpdated: formatISO(subDays(new Date(), 11)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -45,6 +53,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 10)),
+    datePublished: formatISO(subDays(new Date(), 9)),
+    dateUpdated: formatISO(subDays(new Date(), 10)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -58,6 +69,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 9)),
+    datePublished: formatISO(subDays(new Date(), 8)),
+    dateUpdated: formatISO(subDays(new Date(), 9)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -71,6 +85,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 8)),
+    datePublished: formatISO(subDays(new Date(), 7)),
+    dateUpdated: formatISO(subDays(new Date(), 8)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -84,6 +101,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 7)),
+    datePublished: formatISO(subDays(new Date(), 6)),
+    dateUpdated: formatISO(subDays(new Date(), 7)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -97,6 +117,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 6)),
+    datePublished: formatISO(subDays(new Date(), 5)),
+    dateUpdated: formatISO(subDays(new Date(), 6)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -110,6 +133,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 5)),
+    datePublished: formatISO(subDays(new Date(), 4)),
+    dateUpdated: formatISO(subDays(new Date(), 5)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -123,6 +149,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 4)),
+    datePublished: formatISO(subDays(new Date(), 3)),
+    dateUpdated: formatISO(subDays(new Date(), 4)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -136,6 +165,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 3)),
+    datePublished: formatISO(subDays(new Date(), 2)),
+    dateUpdated: formatISO(subDays(new Date(), 3)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -149,6 +181,9 @@ const posts: PostData[] = [
       This is the body of the published post
     `,
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 2)),
+    datePublished: formatISO(subDays(new Date(), 1)),
+    dateUpdated: formatISO(subDays(new Date(), 2)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -159,20 +194,23 @@ const posts: PostData[] = [
     body: `
       # Archived Post
       
-      This is the body of the archibed post
+      This is the body of the archived post
     `,
     status: Status.ARCHIVED,
+    dateCreated: formatISO(subDays(new Date(), 12)),
+    datePublished: formatISO(subDays(new Date(), 11)),
+    dateUpdated: formatISO(subDays(new Date(), 12)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
 ];
 
-const fetchPostSlugs = () => posts.map((post) => post.slug);
+const fetchPostSlugs = () => postFixtures.map((post) => post.slug);
 
 const fetchPosts = (filters: PostSearchFilters): BlogPage => {
   const { status, size = DEFAULT_PAGE_SIZE, after } = filters;
 
-  const filteredPosts = posts.filter(
+  const filteredPosts = postFixtures.filter(
     (post: PostData) => post.status === status
   );
 
@@ -193,7 +231,7 @@ const fetchPosts = (filters: PostSearchFilters): BlogPage => {
 };
 
 const fetchPost = (slug: string) => {
-  return posts.find((post) => post.slug === slug);
+  return postFixtures.find((post) => post.slug === slug);
 };
 
 export default {

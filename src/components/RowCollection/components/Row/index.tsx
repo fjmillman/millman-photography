@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Image } from '../../../../controllers/Types';
+import { Image } from 'controllers/Types';
 
 interface Props {
   coverImage?: Image;

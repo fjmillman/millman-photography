@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import cookie from 'cookie';
 
-import { FAUNA_SECRET_COOKIE } from '../../../utils/fauna-auth';
+import { FAUNA_SECRET_COOKIE } from 'utils/fauna-auth';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'GET') {

@@ -1,4 +1,4 @@
-import { Tag } from '../../controllers/Types';
+import { Tag } from 'controllers/Types';
 import { promiseWrap } from '../utils';
 
 export const tagFixtures: Tag[] = [
@@ -11,7 +11,7 @@ export const tagFixtures: Tag[] = [
     name: 'Tag 2',
   },
   {
-    slug: 'tag-2',
+    slug: 'tag-3',
     name: 'Tag 3',
   },
 ];

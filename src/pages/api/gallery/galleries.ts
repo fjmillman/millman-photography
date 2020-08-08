@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { fetchGalleries } from '../../../controllers/GalleryController';
-import { GallerySearchFilters } from '../../../store/Galleries/Types';
+import { fetchGalleries } from 'controllers/GalleryController';
+import { GallerySearchFilters } from 'store/Galleries/Types';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {

@@ -1,4 +1,4 @@
-import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
 import { action } from '@storybook/addon-actions';
 
 import Button, { ButtonType } from '.';
@@ -9,17 +9,17 @@ import Button, { ButtonType } from '.';
 
 This is our standard button component
 
-<Preview>
+<Canvas>
   <Story name="Default">
     <Button onClick={action('Clicked default button')}>
       <p>Default Button</p>
     </Button>
   </Story>
-</Preview>
+</Canvas>
 
 You can specify the following button types to modify the look
 
-<Preview>
+<Canvas>
   <Story name="Primary">
     <Button type={ButtonType.PRIMARY} onClick={action('Clicked primary button')}>
       <p>Primary Button</p>
@@ -30,11 +30,11 @@ You can specify the following button types to modify the look
       <p>Secondary Button</p>
     </Button>
   </Story>
-</Preview>
+</Canvas>
 
 There's even 3 special buttons to denote certain states: success, warning, and error.
 
-<Preview>
+<Canvas>
   <Story name="Success">
     <Button type={ButtonType.SUCCESS} onClick={action('Clicked success button')}>
       <p>Success Button</p>
@@ -50,4 +50,4 @@ There's even 3 special buttons to denote certain states: success, warning, and e
       <p>Error Button</p>
     </Button>
   </Story>
-</Preview>
+</Canvas>

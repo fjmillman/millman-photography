@@ -1,19 +1,19 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
 
-import Page from '../components/Page';
-import PageHeader from '../components/PageHeader';
-import LinkButton from '../components/Buttons/LinkButton';
-import wrapper from '../store';
-import { fetchGalleries } from '../controllers/GalleryController';
-import { GallerySearchFilters } from '../store/Galleries/Types';
-import { Status } from '../store/Types';
-import RowCollection from '../components/RowCollection';
-import GalleryPreview from '../components/GalleryPreview';
-import { useFixtures } from '../library/constants';
-import { GalleryFixtures } from '../library/Fixtures';
-import { promiseWrap } from '../library/utils';
-import { GalleryData } from '../controllers/Types';
+import Page from 'components/Page';
+import PageHeader from 'components/PageHeader';
+import LinkButton from 'components/Buttons/LinkButton';
+import wrapper from 'store';
+import { fetchGalleries } from 'controllers/GalleryController';
+import { GallerySearchFilters } from 'store/Galleries/Types';
+import { Status } from 'store/Types';
+import RowCollection from 'components/RowCollection';
+import GalleryPreview from 'components/GalleryPreview';
+import { useFixtures } from 'library/constants';
+import { GalleryFixtures } from 'library/Fixtures';
+import { promiseWrap } from 'library/utils';
+import { GalleryData } from 'controllers/Types';
 
 interface Props {
   galleries: GalleryData[];

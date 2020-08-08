@@ -5,37 +5,17 @@ import { GallerySearchFilters } from '../store/Galleries/Types';
 import { serverClient } from '../utils/fauna-auth';
 import { DEFAULT_PAGE_SIZE } from '../library/Fixtures/GalleryFixtures';
 import { FaunaDbPageResponse, FaunaDbPaginationOptions } from '../types';
-import { Gallery, Image, Tag, GalleryData } from './Types';
+import { GalleryData } from './Types';
 
 export const fetchGallerySlugs = async () => {
-  const options: FaunaDbPaginationOptions = {};
-  let rawGalleries: FaunaDbPageResponse<Gallery>;
-  const gallerySlugs: string[] = [];
+  const response = await serverClient.query<FaunaDbPageResponse<string>>(
+    q.Map(
+      q.Paginate(q.Match(q.Index('galleries_by_status'), Status.PUBLISHED)),
+      q.Lambda('entity', q.Select([1], q.Var('entity')))
+    )
+  );
 
-  do {
-    // eslint-disable-next-line no-await-in-loop
-    rawGalleries = await serverClient.query<FaunaDbPageResponse<Gallery>>(
-      q.Map(
-        q.Paginate(
-          q.Match(q.Index('galleries_by_status'), Status.PUBLISHED),
-          options
-        ),
-        (ref) => q.Get(ref)
-      )
-    );
-
-    if (rawGalleries.data.length > 0) {
-      gallerySlugs.push(...rawGalleries.data.map((entity) => entity.data.slug));
-    }
-
-    if (rawGalleries.after) {
-      options.after = [
-        q.Get(q.Match(q.Index('all_galleries'), rawGalleries.after)),
-      ];
-    }
-  } while (rawGalleries.after);
-
-  return gallerySlugs;
+  return response.data;
 };
 
 export const fetchGalleries = async (filters: GallerySearchFilters) => {
@@ -48,69 +28,93 @@ export const fetchGalleries = async (filters: GallerySearchFilters) => {
   const options: FaunaDbPaginationOptions = { size };
 
   if (after) {
-    options.after = [q.Get(q.Match(q.Index('all_galleries')), after)];
+    options.after = [q.Ref(q.Collection('Gallery'), after)];
   }
 
-  const rawGalleries = await serverClient.query<FaunaDbPageResponse<Gallery>>(
+  const response = await serverClient.query<FaunaDbPageResponse<GalleryData>>(
     q.Map(
       q.Paginate(q.Match(q.Index('galleries_by_status'), status), options),
-      (ref) => q.Get(ref)
-    )
-  );
-
-  const galleries: GalleryData[] = await Promise.all(
-    rawGalleries.data.map(async (rawGallery) => {
-      const rawImages = await serverClient.query<FaunaDbPageResponse<Image>>(
-        q.Map(
-          q.Paginate(q.Match(q.Index('images_by_gallery'), rawGallery.ref)),
-          (ref) => q.Get(ref)
+      q.Lambda(
+        'entity',
+        q.Let(
+          {
+            gallery: q.Get(q.Select([2], q.Var('entity'))),
+            images: q.Select(
+              'data',
+              q.Map(
+                q.Paginate(
+                  q.Match(
+                    q.Index('images_by_gallery'),
+                    q.Select('ref', q.Var('gallery'))
+                  )
+                ),
+                q.Lambda('ref', q.Select('data', q.Get(q.Var('ref'))))
+              )
+            ),
+            tags: q.Select(
+              'data',
+              q.Map(
+                q.Paginate(
+                  q.Match(
+                    q.Index('tags_by_gallery'),
+                    q.Select('ref', q.Var('gallery'))
+                  )
+                ),
+                q.Lambda('ref', q.Select('data', q.Get(q.Var('ref'))))
+              )
+            ),
+          },
+          q.Merge(q.Select('data', q.Var('gallery')), {
+            images: q.Var('images'),
+            tags: q.Var('tags'),
+          })
         )
-      );
-
-      const rawTags = await serverClient.query<FaunaDbPageResponse<Tag>>(
-        q.Map(
-          q.Paginate(q.Match(q.Index('tags_by_gallery'), rawGallery.ref)),
-          (ref) => q.Get(ref)
-        )
-      );
-
-      return {
-        ...rawGallery.data,
-        images: rawImages.data.map((rawImage) => rawImage.data),
-        tags: rawTags.data.map((rawTag) => rawTag.data),
-      };
-    })
-  );
-
-  return { galleries, after: rawGalleries.after ?? null };
-};
-
-export const fetchGallery = async (slug: string): Promise<GalleryData> => {
-  const rawGalleries = await serverClient.query<FaunaDbPageResponse<Gallery>>(
-    q.Map(q.Paginate(q.Match(q.Index('galleries_by_slug'), slug)), (ref) =>
-      q.Get(ref)
-    )
-  );
-
-  const rawGallery = rawGalleries.data[0];
-
-  const rawImages = await serverClient.query<FaunaDbPageResponse<Image>>(
-    q.Map(
-      q.Paginate(q.Match(q.Index('images_by_gallery'), rawGallery.ref)),
-      (ref) => q.Get(ref)
-    )
-  );
-
-  const rawTags = await serverClient.query<FaunaDbPageResponse<Tag>>(
-    q.Map(
-      q.Paginate(q.Match(q.Index('tags_by_gallery'), rawGallery.ref)),
-      (ref) => q.Get(ref)
+      )
     )
   );
 
   return {
-    ...rawGallery.data,
-    images: rawImages.data.map((rawImage) => rawImage.data),
-    tags: rawTags.data.map((rawTag) => rawTag.data),
+    galleries: response.data,
+    after: response.after ? response.after[3].id : null ?? null,
   };
+};
+
+export const fetchGallery = async (slug: string): Promise<GalleryData> => {
+  const gallery = await serverClient.query<GalleryData>(
+    q.Let(
+      {
+        gallery: q.Get(q.Match(q.Index('galleries_by_slug'), slug)),
+        images: q.Select(
+          'data',
+          q.Map(
+            q.Paginate(
+              q.Match(
+                q.Index('images_by_gallery'),
+                q.Select('ref', q.Var('gallery'))
+              )
+            ),
+            q.Lambda('ref', q.Select('data', q.Get(q.Var('ref'))))
+          )
+        ),
+        tags: q.Select(
+          'data',
+          q.Map(
+            q.Paginate(
+              q.Match(
+                q.Index('tags_by_gallery'),
+                q.Select('ref', q.Var('gallery'))
+              )
+            ),
+            q.Lambda('ref', q.Select('data', q.Get(q.Var('ref'))))
+          )
+        ),
+      },
+      q.Merge(q.Select('data', q.Var('gallery')), {
+        images: q.Var('images'),
+        tags: q.Var('tags'),
+      })
+    )
+  );
+
+  return gallery;
 };

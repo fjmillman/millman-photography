@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { query as q } from 'faunadb';
 
-import { serverClient, serializeFaunaCookie } from '../../../utils/fauna-auth';
+import { serverClient, serializeFaunaCookie } from 'utils/fauna-auth';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {

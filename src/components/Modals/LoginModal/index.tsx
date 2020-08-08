@@ -1,9 +1,9 @@
 import { unwrapResult } from '@reduxjs/toolkit';
 import { FC } from 'react';
 
+import { LoginData } from 'store/User/Login/Types';
 import Modal from '../Modal';
 import LoginForm from '../../Forms/LoginForm';
-import { LoginData } from '../../../store/User/Login/Types';
 import Message, { MessageType } from '../../Message';
 import useLogin from './hooks/useLogin';
 

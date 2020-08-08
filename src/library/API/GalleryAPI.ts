@@ -1,4 +1,4 @@
-import { GallerySearchFilters } from '../../store/Galleries/Types';
+import { GallerySearchFilters } from 'store/Galleries/Types';
 import { GalleryFixtures } from '../Fixtures';
 import { responseWrap, promiseWrap } from '../utils';
 

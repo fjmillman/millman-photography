@@ -1,6 +1,6 @@
+import { createStore } from 'store';
 import withPageContextProvider from '../../../.storybook/decorators/withPageContextProvider';
 import withRedux from '../../../.storybook/decorators/withRedux';
-import { createStore } from '../../store';
 
 import Layout from '.';
 

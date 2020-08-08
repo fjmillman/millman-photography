@@ -3,12 +3,12 @@ import { FC } from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
-import wrapper from '../store';
-import Layout from '../components/Layout';
-import withPageContext from '../components/HoCs/withPageContext';
-import useStartup from '../hooks/useStartup';
+import wrapper from 'store';
+import Layout from 'components/Layout';
+import withPageContext from 'components/HoCs/withPageContext';
+import useStartup from 'hooks/useStartup';
 
-import '../styles/index.css';
+import 'styles/index.css';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   const { hasMounted } = useStartup();

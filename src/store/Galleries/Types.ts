@@ -1,4 +1,4 @@
-import { GalleryData } from '../../controllers/Types';
+import { GalleryData } from 'controllers/Types';
 import { Status } from '../Types';
 
 export interface GallerySearchFilters {

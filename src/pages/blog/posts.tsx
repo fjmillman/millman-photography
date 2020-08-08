@@ -1,18 +1,18 @@
 import { NextPage } from 'next';
 
-import wrapper from '../../store';
-import { fetchPosts } from '../../controllers/BlogController';
-import parsePostSearchFiltersFromQuery from '../../utils/parsePostSearchFiltersFromQuery';
-import PageHeader from '../../components/PageHeader';
-import Page from '../../components/Page';
-import PageCollection from '../../components/PageCollection';
-import MiniPreview from '../../components/MiniPreview';
-import { useFixtures } from '../../library/constants';
-import { BlogFixtures } from '../../library/Fixtures';
-import { promiseWrap } from '../../library/utils';
-import useBlogPage from '../../hooks/useBlogPage';
-import { PostData } from '../../controllers/Types';
-import { BlogPage } from '../../types';
+import wrapper from 'store';
+import { fetchPosts } from 'controllers/BlogController';
+import parsePostSearchFiltersFromQuery from 'utils/parsePostSearchFiltersFromQuery';
+import PageHeader from 'components/PageHeader';
+import Page from 'components/Page';
+import PageCollection from 'components/PageCollection';
+import MiniPreview from 'components/MiniPreview';
+import { useFixtures } from 'library/constants';
+import { BlogFixtures } from 'library/Fixtures';
+import { promiseWrap } from 'library/utils';
+import useBlogPage from 'hooks/useBlogPage';
+import { PostData } from 'controllers/Types';
+import { BlogPage } from 'types';
 
 const Posts: NextPage<BlogPage> = ({ posts, after }) => {
   const {

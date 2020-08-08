@@ -1,6 +1,6 @@
 import { useContext, FC } from 'react';
 
-import PageContext from '../../context/PageContext';
+import PageContext from 'context/PageContext';
 import NavigationLink from '../Buttons/NavigationLink';
 
 const NavigationBar: FC = () => {

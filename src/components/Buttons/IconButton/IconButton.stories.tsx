@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import Image from 'react-optimized-image';
 
-import MenuIcon from '../../../icons/menu-icon.svg';
+import MenuIcon from 'icons/menu-icon.svg';
 
 import IconButton from '.';
 

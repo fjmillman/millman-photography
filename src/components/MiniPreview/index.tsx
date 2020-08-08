@@ -2,11 +2,10 @@ import { FC } from 'react';
 import Image from 'react-optimized-image';
 import Link from 'next/link';
 
-import { Tag } from '../../controllers/Types';
+import { Tag } from 'controllers/Types';
+import ArrowRight from 'icons/arrow-right.svg';
 import Tags from '../Tags';
 import IconLinkButton from '../Buttons/IconLinkButton';
-
-import ArrowRight from '../../icons/arrow-right.svg';
 
 interface Props {
   title: string;

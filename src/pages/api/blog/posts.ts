@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { fetchPosts } from '../../../controllers/BlogController';
-import { PostSearchFilters } from '../../../store/Blog/Types';
+import { fetchPosts } from 'controllers/BlogController';
+import { PostSearchFilters } from 'store/Blog/Types';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {

@@ -2,8 +2,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import Router from 'next/router';
 
+import { APIType } from 'library/API';
 import { LoginData } from './Types';
-import { APIType } from '../../../library/API';
 
 export const login = createAsyncThunk<
   void,

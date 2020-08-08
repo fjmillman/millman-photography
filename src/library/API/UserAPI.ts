@@ -1,5 +1,5 @@
+import { LoginData } from 'store/User/Login/Types';
 import { UserFixtures } from '../Fixtures';
-import { LoginData } from '../../store/User/Login/Types';
 
 const UserAPI = (useFixtures: boolean) => {
   const getUrl = () => 'api/user';

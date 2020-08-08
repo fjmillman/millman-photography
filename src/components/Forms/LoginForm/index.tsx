@@ -1,6 +1,6 @@
 import { FormEvent, useState, useEffect, FC } from 'react';
 
-import { LoginData } from '../../../store/User/Login/Types';
+import { LoginData } from 'store/User/Login/Types';
 
 interface Props {
   formId?: string;

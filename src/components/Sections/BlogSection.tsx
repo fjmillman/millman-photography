@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
+import { PostData } from 'controllers/Types';
 import CardCollection from '../CardCollection';
 import LinkButton from '../Buttons/LinkButton';
 import MiniPreview from '../MiniPreview';
-import { PostData } from '../../controllers/Types';
 
 interface Props {
   posts: PostData[];

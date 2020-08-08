@@ -1,4 +1,4 @@
-import { PostSearchFilters } from '../../store/Blog/Types';
+import { PostSearchFilters } from 'store/Blog/Types';
 import { BlogFixtures } from '../Fixtures';
 import { responseWrap, promiseWrap } from '../utils';
 

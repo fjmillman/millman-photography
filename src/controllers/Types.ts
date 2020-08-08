@@ -18,6 +18,9 @@ export interface Gallery {
   slug: string;
   description: string;
   status: string;
+  dateCreated: string;
+  datePublished: string | null;
+  dateUpdated: string;
 }
 
 export interface Post {
@@ -26,6 +29,9 @@ export interface Post {
   description: string;
   body: string;
   status: string;
+  dateCreated: string;
+  datePublished: string | null;
+  dateUpdated: string;
 }
 
 export interface GalleryData extends Gallery {

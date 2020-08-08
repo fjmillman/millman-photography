@@ -1,7 +1,7 @@
-import { ImageData, Tag } from '../../controllers/Types';
+import { ImageData, Tag } from 'controllers/Types';
+import { ImageSearchFilters } from 'store/Types';
 import { promiseWrap } from '../utils';
 import { tagFixtures } from './TagFixtures';
-import { ImageSearchFilters } from '../../store/Types';
 
 const url =
   'https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-9/97805242_3172504982973692_6555087608093868032_o.jpg?_nc_cat=108&_nc_sid=2d5d41&_nc_oc=AQnXcycDP2Zv2lO3mve4_kzN_KscH3z9quACoZPbM7pVE3AZOELR1HORdd4ifAik1kfYdCMnwCTz2A10uuQ2XW8J&_nc_ht=scontent-frx5-1.xx&oh=56b405bd312b554923736aa6bf73f74e&oe=5F181921';

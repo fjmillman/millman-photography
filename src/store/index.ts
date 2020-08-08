@@ -2,7 +2,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import { MakeStore, createWrapper } from 'next-redux-wrapper';
 
-import api from '../library/API';
+import api from 'library/API';
 import rootReducer from './Reducer';
 
 export const createStore = () =>
@@ -26,4 +26,4 @@ export const useThunkDispatch = () => useDispatch<AppDispatch>();
 
 const makeStore: MakeStore<RootState> = createStore;
 
-export default createWrapper(makeStore, { debug: true });
+export default createWrapper(makeStore);

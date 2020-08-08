@@ -1,19 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { GalleryData } from '../../controllers/Types';
-import { GallerySearchFilters } from '../../store/Galleries/Types';
-import { Status } from '../../store/Types';
+import { formatISO, subDays } from 'date-fns';
+
+import { GalleryData } from 'controllers/Types';
+import { GallerySearchFilters } from 'store/Galleries/Types';
+import { Status } from 'store/Types';
+import { GalleriesPage } from 'types';
 import { tagFixtures } from './TagFixtures';
 import { imageFixtures } from './ImageFixtures';
-import { GalleriesPage } from '../../types';
 
 export const DEFAULT_PAGE_SIZE = 9;
 
-const galleries: GalleryData[] = [
+export const galleryFixtures: GalleryData[] = [
   {
     title: 'Draft Gallery',
     slug: 'draft-gallery',
     description: 'This is a draft gallery',
     status: Status.DRAFT,
+    dateCreated: formatISO(new Date()),
+    datePublished: null,
+    dateUpdated: formatISO(new Date()),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -22,6 +27,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-1',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 11)),
+    datePublished: formatISO(subDays(new Date(), 10)),
+    dateUpdated: formatISO(subDays(new Date(), 11)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -30,6 +38,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-2',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 10)),
+    datePublished: formatISO(subDays(new Date(), 9)),
+    dateUpdated: formatISO(subDays(new Date(), 10)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -38,6 +49,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-3',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 9)),
+    datePublished: formatISO(subDays(new Date(), 8)),
+    dateUpdated: formatISO(subDays(new Date(), 9)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -46,6 +60,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-4',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 8)),
+    datePublished: formatISO(subDays(new Date(), 7)),
+    dateUpdated: formatISO(subDays(new Date(), 8)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -54,6 +71,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-5',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 7)),
+    datePublished: formatISO(subDays(new Date(), 6)),
+    dateUpdated: formatISO(subDays(new Date(), 7)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -62,6 +82,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-6',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 6)),
+    datePublished: formatISO(subDays(new Date(), 5)),
+    dateUpdated: formatISO(subDays(new Date(), 6)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -70,6 +93,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-7',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 5)),
+    datePublished: formatISO(subDays(new Date(), 4)),
+    dateUpdated: formatISO(subDays(new Date(), 5)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -78,6 +104,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-8',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 4)),
+    datePublished: formatISO(subDays(new Date(), 3)),
+    dateUpdated: formatISO(subDays(new Date(), 4)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -86,6 +115,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-9',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 3)),
+    datePublished: formatISO(subDays(new Date(), 2)),
+    dateUpdated: formatISO(subDays(new Date(), 3)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -94,6 +126,9 @@ const galleries: GalleryData[] = [
     slug: 'published-gallery-10',
     description: 'This is a published gallery',
     status: Status.PUBLISHED,
+    dateCreated: formatISO(subDays(new Date(), 2)),
+    datePublished: formatISO(subDays(new Date(), 1)),
+    dateUpdated: formatISO(subDays(new Date(), 2)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
@@ -102,17 +137,20 @@ const galleries: GalleryData[] = [
     slug: 'archived-gallery',
     description: 'This is a archived gallery',
     status: Status.ARCHIVED,
+    dateCreated: formatISO(subDays(new Date(), 12)),
+    datePublished: formatISO(subDays(new Date(), 11)),
+    dateUpdated: formatISO(subDays(new Date(), 12)),
     images: [imageFixtures[0]].map(({ tags, ...image }) => image),
     tags: [tagFixtures[0]],
   },
 ];
 
-const fetchGallerySlugs = () => galleries.map((gallery) => gallery.slug);
+const fetchGallerySlugs = () => galleryFixtures.map((gallery) => gallery.slug);
 
 const fetchGalleries = (filters: GallerySearchFilters): GalleriesPage => {
   const { status, size = DEFAULT_PAGE_SIZE, after } = filters;
 
-  const filteredGalleries = galleries.filter(
+  const filteredGalleries = galleryFixtures.filter(
     (gallery: GalleryData) => gallery.status === status
   );
 
@@ -135,7 +173,7 @@ const fetchGalleries = (filters: GallerySearchFilters): GalleriesPage => {
 };
 
 const fetchGallery = (slug: string) => {
-  return galleries.find((gallery) => gallery.slug === slug);
+  return galleryFixtures.find((gallery) => gallery.slug === slug);
 };
 
 export default {

@@ -1,16 +1,13 @@
 import { NextPage } from 'next';
 
-import wrapper from '../../store';
-import {
-  fetchGallerySlugs,
-  fetchGallery,
-} from '../../controllers/GalleryController';
-import Page from '../../components/Page';
-import PageHeader from '../../components/PageHeader';
-import { useFixtures } from '../../library/constants';
-import { GalleryFixtures } from '../../library/Fixtures';
-import { promiseWrap } from '../../library/utils';
-import { GalleryData } from '../../controllers/Types';
+import wrapper from 'store';
+import { fetchGallerySlugs, fetchGallery } from 'controllers/GalleryController';
+import Page from 'components/Page';
+import PageHeader from 'components/PageHeader';
+import { useFixtures } from 'library/constants';
+import { GalleryFixtures } from 'library/Fixtures';
+import { promiseWrap } from 'library/utils';
+import { GalleryData } from 'controllers/Types';
 
 interface Props {
   gallery: GalleryData;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
+import { createStore } from 'store';
 import withRedux from '../../../../.storybook/decorators/withRedux';
-import { createStore } from '../../../store';
 
 import LoginModal from '.';
 

@@ -1,6 +1,6 @@
-import { useTypedSelector, useThunkDispatch } from '../../../../store';
-import { login } from '../../../../store/User/Login/Effects';
-import { LoginData } from '../../../../store/User/Login/Types';
+import { useTypedSelector, useThunkDispatch } from 'store';
+import { login } from 'store/User/Login/Effects';
+import { LoginData } from 'store/User/Login/Types';
 
 const useLogin = () => {
   const { isFetching, error, isLoggedIn } = useTypedSelector(

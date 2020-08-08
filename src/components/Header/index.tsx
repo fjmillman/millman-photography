@@ -2,18 +2,17 @@ import { useContext, FC } from 'react';
 import Link from 'next/link';
 import Image from 'react-optimized-image';
 
+import PageContext from 'context/PageContext';
+import useAuthentication from 'hooks/useAuthentication';
+import Logo from 'images/signature.png';
+import MenuIcon from 'icons/menu-icon.svg';
 import Sidebar from '../Sidebar';
 import LoginModal from '../Modals/LoginModal';
 import IconButton from '../Buttons/IconButton';
-import PageContext from '../../context/PageContext';
 import useSidebar from '../Sidebar/hooks/useSidebar';
 import useLoginModal from '../Modals/LoginModal/hooks/useLoginModal';
 import NavigationBar from '../NavigationBar';
-import useAuthentication from '../../hooks/useAuthentication';
 import NavigationButton from '../Buttons/NavigationButton';
-
-import Logo from '../../images/signature.png';
-import MenuIcon from '../../icons/menu-icon.svg';
 
 const Header: FC = () => {
   const { isDesktopView } = useContext(PageContext);

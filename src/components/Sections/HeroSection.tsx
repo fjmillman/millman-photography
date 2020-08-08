@@ -1,9 +1,8 @@
 import { FC } from 'react';
 import Img from 'react-optimized-image';
 
+import Logo from 'images/signature.png';
 import BackgroundHero from '../BackgroundHero';
-
-import Logo from '../../images/signature.png';
 
 const HeroSection: FC = () => (
   <section>

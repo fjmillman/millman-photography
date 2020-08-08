@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
-import { PostSearchFilters } from '../store/Blog/Types';
-import { Status } from '../store/Types';
+
+import { PostSearchFilters } from 'store/Blog/Types';
+import { Status } from 'store/Types';
 
 const convertToInt = (value: string) => parseInt(value, 10);
 

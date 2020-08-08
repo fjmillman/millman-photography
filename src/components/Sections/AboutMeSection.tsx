@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Img from 'react-optimized-image';
 
-import Portrait from '../../images/portrait.jpg';
+import Portrait from 'images/portrait.jpg';
 
 const AboutMeSection: FC = () => (
   <section>

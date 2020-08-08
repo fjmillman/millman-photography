@@ -2,14 +2,14 @@ import { NextPage } from 'next';
 import renderToString from 'next-mdx-remote/render-to-string';
 import hydrate from 'next-mdx-remote/hydrate';
 
-import wrapper from '../../../store';
-import { fetchPostSlugs, fetchPost } from '../../../controllers/BlogController';
-import Page from '../../../components/Page';
-import PageHeader from '../../../components/PageHeader';
-import { useFixtures } from '../../../library/constants';
-import { BlogFixtures } from '../../../library/Fixtures';
-import { promiseWrap } from '../../../library/utils';
-import { PostData } from '../../../controllers/Types';
+import wrapper from 'store';
+import { fetchPostSlugs, fetchPost } from 'controllers/BlogController';
+import Page from 'components/Page';
+import PageHeader from 'components/PageHeader';
+import { useFixtures } from 'library/constants';
+import { BlogFixtures } from 'library/Fixtures';
+import { promiseWrap } from 'library/utils';
+import { PostData } from 'controllers/Types';
 
 interface Props {
   post: PostData;

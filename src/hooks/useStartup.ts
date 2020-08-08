@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { check } from '../store/User/Login/Effects';
+import { check } from 'store/User/Login/Effects';
 import useHasMounted from './useHasMounted';
 
 const useStartup = () => {

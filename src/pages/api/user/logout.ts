@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { query as q } from 'faunadb';
 import cookie from 'cookie';
 
-import { faunaClient, FAUNA_SECRET_COOKIE } from '../../../utils/fauna-auth';
+import { faunaClient, FAUNA_SECRET_COOKIE } from 'utils/fauna-auth';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'GET') {

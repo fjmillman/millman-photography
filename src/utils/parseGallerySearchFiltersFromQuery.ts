@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
-import { GallerySearchFilters } from '../store/Galleries/Types';
-import { Status } from '../store/Types';
+
+import { GallerySearchFilters } from 'store/Galleries/Types';
+import { Status } from 'store/Types';
 
 const convertToInt = (value: string) => parseInt(value, 10);
 

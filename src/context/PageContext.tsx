@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { createContext, ReactNode } from 'react';
 
-import useWindowWidth from '../hooks/useWindowWidth';
+import useWindowWidth from 'hooks/useWindowWidth';
 
 const DEFAULT_IS_DESKTOP_VIEW = false;
 

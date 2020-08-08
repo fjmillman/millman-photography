@@ -1,11 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { APIType } from '../../library/API';
+import { APIType } from 'library/API';
+import { DEFAULT_PAGE_SIZE } from 'library/Fixtures/BlogFixtures';
+import { BlogPage } from 'types';
 import { PostSearchFilters } from './Types';
-import { DEFAULT_PAGE_SIZE } from '../../library/Fixtures/BlogFixtures';
 import { Status } from '../Types';
-import { BlogPage } from '../../types';
 
 export const fetchPosts = createAsyncThunk<
   BlogPage,

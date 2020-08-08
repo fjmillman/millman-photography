@@ -1,11 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { APIType } from '../../library/API';
+import { APIType } from 'library/API';
+import { DEFAULT_PAGE_SIZE } from 'library/Fixtures/GalleryFixtures';
+import { GalleriesPage } from 'types';
 import { GallerySearchFilters } from './Types';
-import { DEFAULT_PAGE_SIZE } from '../../library/Fixtures/GalleryFixtures';
 import { Status } from '../Types';
-import { GalleriesPage } from '../../types';
 
 export const fetchGalleries = createAsyncThunk<
   GalleriesPage,
