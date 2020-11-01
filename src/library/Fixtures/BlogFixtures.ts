@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { formatISO, subDays } from 'date-fns';
 
-import { PostData } from 'controllers/Types';
-import { PostSearchFilters } from 'store/Blog/Types';
-import { Status } from 'store/Types';
-import { BlogPage } from 'types';
+import { PostData } from '../../controllers/Types';
+import { PostSearchFilters } from '../../store/Blog/Types';
+import { Status } from '../../store/Types';
+import { BlogPage } from '../../types';
 import { imageFixtures } from './ImageFixtures';
 import { tagFixtures } from './TagFixtures';
 

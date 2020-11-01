@@ -1,4 +1,4 @@
-import FaunaDb from 'faunadb';
+import { query as q } from 'faunadb';
 
 import { serverClient } from '../src/utils/fauna-auth';
 import { userFixtures } from '../src/library/Fixtures/UserFixtures';
@@ -6,8 +6,6 @@ import { tagFixtures } from '../src/library/Fixtures/TagFixtures';
 import { imageFixtures } from '../src/library/Fixtures/ImageFixtures';
 import { galleryFixtures } from '../src/library/Fixtures/GalleryFixtures';
 import { postFixtures } from '../src/library/Fixtures/BlogFixtures';
-
-const q = FaunaDb.query;
 
 /** Tear down collections */
 const tearDownCollections = async () => {

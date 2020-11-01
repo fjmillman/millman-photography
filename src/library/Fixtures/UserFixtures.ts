@@ -1,4 +1,4 @@
-import { LoginData } from 'store/User/Login/Types';
+import { LoginData } from '../../store/User/Login/Types';
 import { promiseWrap, responseWrap, errorResponseWrap } from '../utils';
 
 let isLoggedIn = false;

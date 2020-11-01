@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Image from 'react-optimized-image';
+import Img from 'react-optimized-image';
 
 import Icon from 'icons/chevron-left.svg';
 
@@ -12,7 +12,7 @@ const ServicesSection: FC = () => (
     <div className="grid">
       <div>
         <div className="icon">
-          <Image src={Icon} inline webp />
+          <Img src={Icon} inline />
         </div>
         <h3>Photography</h3>
         <p>
@@ -22,7 +22,7 @@ const ServicesSection: FC = () => (
       </div>
       <div>
         <div className="icon">
-          <Image src={Icon} inline webp />
+          <Img src={Icon} inline />
         </div>
         <h3>Events</h3>
         <p>
@@ -32,7 +32,7 @@ const ServicesSection: FC = () => (
       </div>
       <div>
         <div className="icon">
-          <Image src={Icon} inline webp />
+          <Img src={Icon} inline />
         </div>
         <h3>Prints</h3>
         <p>

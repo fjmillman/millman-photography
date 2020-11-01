@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Image from 'react-optimized-image';
+import Img from 'react-optimized-image';
 import Link from 'next/link';
 
 import { Tag } from 'controllers/Types';
@@ -31,7 +31,7 @@ const MiniPreview: FC<Props> = ({
       <Tags tags={tags} />
       <Link href={linkHref} as={linkAs}>
         <IconLinkButton>
-          <Image src={ArrowRight} inline webp />
+          <Img src={ArrowRight} inline />
         </IconLinkButton>
       </Link>
     </div>

@@ -60,7 +60,7 @@ const Header: FC = () => {
         {!isDesktopView ? (
           <>
             <IconButton onClick={handleOpenSidebar} ariaLabel="Open Menu">
-              <Image src={MenuIcon} />
+              <Image src={MenuIcon} inline />
             </IconButton>
             <Sidebar
               isOpen={isSidebarOpen}

@@ -6,7 +6,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -17,8 +16,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "rootDirs": ["src"],
-    "baseUrl": "./src"
+    "rootDirs": [
+      "src"
+    ],
+    "baseUrl": "./src",
+    "allowJs": true
   },
   "exclude": [
     "node_modules"

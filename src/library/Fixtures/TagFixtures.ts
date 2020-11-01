@@ -1,4 +1,4 @@
-import { Tag } from 'controllers/Types';
+import { Tag } from '../../controllers/Types';
 import { promiseWrap } from '../utils';
 
 export const tagFixtures: Tag[] = [

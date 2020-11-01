@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { formatISO, subDays } from 'date-fns';
 
-import { GalleryData } from 'controllers/Types';
-import { GallerySearchFilters } from 'store/Galleries/Types';
-import { Status } from 'store/Types';
-import { GalleriesPage } from 'types';
+import { GalleryData } from '../../controllers/Types';
+import { GallerySearchFilters } from '../../store/Galleries/Types';
+import { Status } from '../../store/Types';
+import { GalleriesPage } from '../../types';
 import { tagFixtures } from './TagFixtures';
 import { imageFixtures } from './ImageFixtures';
 

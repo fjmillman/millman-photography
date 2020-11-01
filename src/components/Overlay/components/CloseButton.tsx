@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Image from 'react-optimized-image';
+import Img from 'react-optimized-image';
 
 import CloseIcon from 'icons/close-icon.svg';
 import IconButton from '../../Buttons/IconButton';
@@ -12,7 +12,7 @@ interface Props {
 const CloseButton: FC<Props> = ({ onClick, ariaLabel }) => (
   <div>
     <IconButton onClick={onClick} ariaLabel={ariaLabel}>
-      <Image src={CloseIcon} />
+      <Img src={CloseIcon} inline />
     </IconButton>
     <style jsx>{`
       div {

@@ -1,5 +1,5 @@
-import { ImageData, Tag } from 'controllers/Types';
-import { ImageSearchFilters } from 'store/Types';
+import { ImageData, Tag } from '../../controllers/Types';
+import { ImageSearchFilters } from '../../store/Types';
 import { promiseWrap } from '../utils';
 import { tagFixtures } from './TagFixtures';
 
