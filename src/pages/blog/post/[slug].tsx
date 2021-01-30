@@ -13,7 +13,7 @@ import { PostData } from 'controllers/Types';
 
 interface Props {
   post: PostData;
-  mdxSource: object;
+  mdxSource: Record<string, unknown>;
 }
 
 const Post: NextPage<Props> = ({ post: { title, description }, mdxSource }) => {
