@@ -1,6 +1,6 @@
 import type { Post, Image, ImageOnPosts, Tag, TagOnPosts } from '@prisma/client';
 import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction} from '@remix-run/node';
+import type { LoaderFunction, MetaFunction } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData, useSubmit, useTransition } from '@remix-run/react';
@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     where: { status: Status.Published },
   });
 
-  const totalPages = Math.ceil(total / size);
+  const totalPages = total > 0 ? Math.ceil(total / size) : 0;
 
   if (page > totalPages) {
     return redirect(`/posts?page=${totalPages}`);
