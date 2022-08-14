@@ -1,6 +1,7 @@
 import type { Post, Image, ImageOnPosts, Tag, TagOnPosts } from '@prisma/client';
 import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LoaderFunction, MetaFunction} from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData, useSubmit, useTransition } from '@remix-run/react';
 
@@ -18,13 +19,19 @@ export type PostWithTagsAndImages = Post & {
   })[];
 };
 
-export const loader: LoaderFunction = async ({ params, request }) => {
+export const loader: LoaderFunction = async ({ params }) => {
   const page = params.page ? parseInt(params.page) : 1;
   const size = params.size ? parseInt(params.size) : 9;
 
   const total = await prisma.post.count({
     where: { status: Status.Published },
   });
+
+  const totalPages = Math.ceil(total / size);
+
+  if (page > totalPages) {
+    return redirect(`/posts?page=${totalPages}`);
+  }
 
   const posts = await prisma.post.findMany({
     include: {

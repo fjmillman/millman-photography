@@ -5,8 +5,9 @@
     "prepare": "husky install",
     "build": "prisma generate && prisma db push && npm run build:css && remix build",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
-    "dev": "npm run prisma:generate && concurrently \"npm run dev:css\" \"remix dev\"",
+    "dev": "prisma generate && concurrently \"npm run dev:css\" \"npm run dev:s3\" \"remix dev\"",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
+    "dev:s3": "npx sls offline",
     "tsc": "tsc -b",
     "eslint": "eslint --fix 'app/**/*.{js,jsx,ts,tsx}'",
     "prettier": "prettier --write 'app/**/*.{js,jsx,ts,tsx}'"
@@ -55,6 +56,9 @@
     "postcss": "^8.4.16",
     "prettier": "^2.7.1",
     "prisma": "^4.2.1",
+    "serverless": "^3.21.0",
+    "serverless-offline": "^9.2.0",
+    "serverless-s3-local": "^0.6.22",
     "tailwindcss": "^3.1.8",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4"

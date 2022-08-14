@@ -1,7 +1,11 @@
-import type { Tag , User } from '@prisma/client';
+import type { Tag, User, Image } from '@prisma/client';
 import { Status } from '@prisma/client';
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt';
+import s3 from '../app/utils/s3';
+import cuid from 'cuid';
+import path from 'path';
+import { readFileSync } from 'fs';
 
 const prisma = new PrismaClient()
 
@@ -9,8 +13,8 @@ async function main() {
     const userFixtures = [{
         email: 'admin@millmanphotography.co.uk',
         password: 'abc123',
-        firstName: 'Freddie',
-        lastName: 'Millman',
+        firstName: 'Test',
+        lastName: 'Admin',
         isAdmin: true,
     }]
 
@@ -51,6 +55,61 @@ async function main() {
     return tag
   }
 
+  const uploadImageToS3 =  async (filename: string) => {
+    const filepath = path.join(__dirname, `../app/images/${filename}`);
+    const image = await readFileSync(filepath)
+  
+    const { Location } = await s3
+      .upload({
+        Bucket: process.env.S3_BUCKET_NAME || '',
+        Key: `${cuid()}.${filename.split('.').slice(-1)}`,
+        Body: image,
+        ContentType: 'image/jpg',
+      })
+      .promise();
+
+      return Location;
+  }
+
+  const image1Url = ''; // await uploadImageToS3('example-1.jpg');
+  const image2Url = ''; // await uploadImageToS3('example-2.jpg');
+  const image3Url = ''; // await uploadImageToS3('example-3.jpg');
+
+  const imageFixtures = [
+    {
+      slug: 'landscape',
+      caption: 'A pretty landscape', 
+      url: image1Url,
+      tagId: getTagFromTagsBySlug(tags, 'landscape').id
+    },
+    {
+      slug: 'architecture',
+      caption: 'Gorgeous architecture', 
+      url: image2Url,
+      tagId: getTagFromTagsBySlug(tags, 'architecture').id
+    },
+    {
+      slug: 'portrait',
+      caption: 'Handsome face', 
+      url: image3Url,
+      tagId: getTagFromTagsBySlug(tags, 'portrait').id
+    },
+  ];
+
+  const images = await Promise.all(imageFixtures.map(({ tagId, ...image }) => prisma.image.upsert({
+    where: { slug: image.slug },
+    update: {},
+    create: { ...image, tags: { create: { tagId }}},
+  })))
+
+  const getImageFromImagesBySlug = (images: Image[], slug: string): Image => {
+    const image = images.find((image) => image.slug === slug)
+    if (!image){
+        throw new Error(`Image with slug (${slug}) not found`)
+    }
+    return image
+  }
+
   const galleryFixtures = [
     {
         title: 'Landscape Gallery',
@@ -58,7 +117,8 @@ async function main() {
         description: 'This is a landscape gallery',
         status: Status.Draft,
         publishedAt: null,
-        tagId: getTagFromTagsBySlug(tags, 'landscape').id
+        tagId: getTagFromTagsBySlug(tags, 'landscape').id,
+        imageId: getImageFromImagesBySlug(images, 'landscape').id,
       },
       {
         title: 'Architecture Gallery',
@@ -66,7 +126,8 @@ async function main() {
         description: 'This is an architecture gallery',
         status: Status.Published,
         publishedAt: new Date(),
-        tagId: getTagFromTagsBySlug(tags, 'architecture').id
+        tagId: getTagFromTagsBySlug(tags, 'architecture').id,
+        imageId: getImageFromImagesBySlug(images, 'architecture').id,
       },
       {
         title: 'Portrait Gallery',
@@ -74,14 +135,15 @@ async function main() {
         description: 'This is a portrait gallery',
         status: Status.Archived,
         publishedAt: new Date(),
-        tagId: getTagFromTagsBySlug(tags, 'portrait').id
+        tagId: getTagFromTagsBySlug(tags, 'portrait').id,
+        imageId: getImageFromImagesBySlug(images, 'portrait').id,
       }
   ]
 
-  await Promise.all(galleryFixtures.map(({ tagId, ...gallery }) => prisma.gallery.upsert({
+  await Promise.all(galleryFixtures.map(({ tagId, imageId, ...gallery }) => prisma.gallery.upsert({
         where: { slug: gallery.slug },
         update: {},
-        create: { ...gallery, tags: { create: { tagId }}},
+        create: { ...gallery, tags: { create: { tagId }}, images: { create: { imageId } }},
       })))
 
       const postFixtures = [
@@ -92,8 +154,9 @@ async function main() {
             content: '',
             status: Status.Draft,
             publishedAt: null,
-            tagId: getTagFromTagsBySlug(tags, 'portait').id,
+            tagId: getTagFromTagsBySlug(tags, 'portrait').id,
             authorId: getUserFromUsersByEmail(users, 'admin@millmanphotography.co.uk').id,
+            imageId: getImageFromImagesBySlug(images, 'portrait').id,
           },
           {
             title: 'A Trip to Iceland',
@@ -104,6 +167,7 @@ async function main() {
             publishedAt: new Date(),
             tagId: getTagFromTagsBySlug(tags, 'travel').id,
             authorId: getUserFromUsersByEmail(users, 'admin@millmanphotography.co.uk').id,
+            imageId: getImageFromImagesBySlug(images, 'architecture').id,
           },
           {
             title: 'Landscape Memory Lane',
@@ -112,15 +176,16 @@ async function main() {
             content: '',
             status: Status.Archived,
             publishedAt: new Date(),
-            tagId: getTagFromTagsBySlug(tags, 'landscapes').id,
+            tagId: getTagFromTagsBySlug(tags, 'landscape').id,
             authorId: getUserFromUsersByEmail(users, 'admin@millmanphotography.co.uk').id,
+            imageId: getImageFromImagesBySlug(images, 'landscape').id,
           }
       ]
     
-      await Promise.all(postFixtures.map(({ tagId, ...post }) => prisma.post.upsert({
+      await Promise.all(postFixtures.map(({ tagId, imageId, ...post }) => prisma.post.upsert({
             where: { slug: post.slug },
             update: {},
-            create: { ...post, tags: { create: { tagId }}},
+            create: { ...post, tags: { create: { tagId }}, images: { create: { imageId } }},
           })))
 }
 

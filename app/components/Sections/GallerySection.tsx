@@ -29,7 +29,7 @@ const GallerySection: FC<Props> = ({ galleries }) => (
           />
         )}
       />
-      <div className="mt-12 mx-auto">
+      <div className="text-md font-bold mt-12 mx-auto">
         <Link to="/gallery">
           <LinkButton>Go to my gallery</LinkButton>
         </Link>

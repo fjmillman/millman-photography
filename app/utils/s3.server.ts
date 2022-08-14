@@ -1,13 +1,8 @@
 import type { UploadHandler } from '@remix-run/node';
 import { unstable_parseMultipartFormData } from '@remix-run/node';
-import S3 from 'aws-sdk/clients/s3';
 import cuid from 'cuid';
 
-const s3 = new S3({
-  region: process.env.S3_BUCKET_REGION,
-  accessKeyId: process.env.S3_ACCESS_KEY_ID,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-});
+import s3 from './s3';
 
 const uploadHandler: UploadHandler = async ({ filename, contentType, data }) => {
   if (!filename) {

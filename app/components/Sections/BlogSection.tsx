@@ -29,7 +29,7 @@ const BlogSection: FC<Props> = ({ posts }) => (
           />
         )}
       />
-      <div className="text-md font-bold mb-1 text-center">
+      <div className="text-md font-bold mt-12 mx-auto">
         <Link to="/blog">
           <LinkButton>Go to my blog</LinkButton>
         </Link>

@@ -1,6 +1,7 @@
 import type { Gallery, Image, ImageOnGalleries, Tag, TagOnGalleries } from '@prisma/client';
 import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LoaderFunction, MetaFunction} from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData, useSubmit, useTransition } from '@remix-run/react';
 
@@ -18,13 +19,19 @@ export type GalleryWithTagsAndImages = Gallery & {
   })[];
 };
 
-export const loader: LoaderFunction = async ({ params, request }) => {
+export const loader: LoaderFunction = async ({ params }) => {
   const page = params.page ? parseInt(params.page) : 1;
   const size = params.size ? parseInt(params.size) : 9;
 
   const total = await prisma.gallery.count({
     where: { status: Status.Published },
   });
+
+  const totalPages = Math.ceil(total / size);
+
+  if (page > totalPages) {
+    return redirect(`/galleries?page=${totalPages}`);
+  }
 
   const galleries = await prisma.gallery.findMany({
     include: {
@@ -95,7 +102,7 @@ const Galleries = () => {
         isLoading={state === 'submitting'}
         entities={galleries}
         selectKey={(gallery: GalleryWithTagsAndImages) => gallery.slug}
-        selectImage={(gallery: GalleryWithTagsAndImages) => gallery.images[0].image}
+        selectImage={(gallery: GalleryWithTagsAndImages) => gallery.images[0]?.image}
         renderContent={(gallery: GalleryWithTagsAndImages) => (
           <MiniPreview
             title={gallery.title}
