@@ -1,77 +1,65 @@
 {
-  "name": "millman-photography",
-  "version": "0.1.0",
   "private": true,
-  "license": "MIT",
+  "sideEffects": false,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "scripts:build": "tsc --project tsconfig.scripts.json",
-    "script": "node -r dotenv/config",
-    "faunadb:local:run": "docker run --rm --name faunadb -p 8443:8443 fauna/faunadb",
-    "faunadb:local:setup": "NODE_ENV=development yarn script dist/scripts/setup-faunadb.js dotenv_config_path=.env.local",
-    "faunadb:preview:setup": "yarn script dist/scripts/setup-faunadb.js dotenv_config_path=.env.test.local",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "prepare": "husky install",
+    "build": "prisma generate && prisma migrate deploy && npm run build:css && remix build",
+    "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
+    "dev": "npm run prisma:generate && concurrently \"npm run dev:css\" \"remix dev\"",
+    "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
+    "tsc": "tsc -b",
+    "eslint": "eslint --fix 'app/**/*.{js,jsx,ts,tsx}'",
+    "prettier": "prettier --write 'app/**/*.{js,jsx,ts,tsx}'"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
+    "app/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
       "eslint --fix"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.4.0",
-    "classnames": "^2.2.6",
-    "cookie": "^0.4.1",
-    "date-fns": "^2.16.1",
-    "faunadb": "^3.0.1",
-    "focus-trap-react": "^8.1.1",
-    "next": "^10.0.0",
-    "next-compose-plugins": "^2.2.0",
-    "next-mdx-remote": "^1.0.0",
-    "next-optimized-images": "3.0.0-canary.10",
-    "next-redux-wrapper": "^6.0.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-optimized-image": "^0.2.0",
-    "react-redux": "^7.2.2",
-    "redux": "^4.0.5",
-    "sharp": "^0.26.2",
-    "styled-jsx": "^3.3.2",
-    "webpack": "^5.3.2"
+    "@prisma/client": "^4.2.1",
+    "@radix-ui/react-dialog": "^1.0.0",
+    "@remix-run/node": "^1.6.8",
+    "@remix-run/react": "^1.6.8",
+    "@remix-run/vercel": "^1.6.8",
+    "@vercel/node": "^2.4.4",
+    "aws-sdk": "^2.1194.0",
+    "bcrypt": "^5.0.1",
+    "classnames": "^2.3.1",
+    "cuid": "^2.1.8",
+    "esbuild": "^0.14.54",
+    "focus-trap-react": "^9.0.2",
+    "mdx-bundler": "^9.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remark-mdx-images": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@storybook/addon-a11y": "6.0.28",
-    "@storybook/addon-essentials": "^6.0.28",
-    "@storybook/addons": "6.0.28",
-    "@storybook/react": "6.0.28",
-    "@storybook/theming": "6.0.28",
-    "@types/classnames": "^2.2.10",
-    "@types/cookie": "^0.4.0",
-    "@types/node": "^14.0.1",
-    "@types/react": "^16.9.35",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-redux": "^7.1.8",
-    "@types/styled-jsx": "^2.2.8",
-    "babel-loader": "^8.1.0",
-    "chromatic": "^5.3.0",
-    "dotenv": "^8.2.0",
-    "eslint": "^7.12.1",
-    "eslint-config-airbnb-typescript-prettier": "^3.1.0",
-    "eslint-import-resolver-typescript": "^2.3.0",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.5.1",
-    "prettier": "^2.1.2",
-    "react-is": "^17.0.1",
-    "ts-node": "9.0.0",
-    "tsconfig-paths": "^3.9.0",
-    "typescript": "^4.0.5"
+    "@remix-run/dev": "^1.6.8",
+    "@remix-run/eslint-config": "^1.6.8",
+    "@remix-run/serve": "^1.6.8",
+    "@types/bcrypt": "^5.0.0",
+    "@types/node": "^18.7.3",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "autoprefixer": "^10.4.8",
+    "concurrently": "^7.3.0",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "postcss": "^8.4.16",
+    "prettier": "^2.7.1",
+    "prisma": "^4.2.1",
+    "tailwindcss": "^3.1.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }

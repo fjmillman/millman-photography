@@ -1,0 +1,120 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String   @unique
+  password  String
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+}
+
+model Tag {
+  id        Int              @id @default(autoincrement())
+  slug      String           @unique
+  name      String           @unique
+  images    TagOnImages[]
+  posts     TagOnPosts[]
+  galleries TagOnGalleries[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model Image {
+  id        Int                @id @default(autoincrement())
+  slug      String             @unique
+  caption   String
+  url       String
+  tags      TagOnImages[]
+  posts     ImageOnPosts[]
+  galleries ImageOnGalleries[]
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+model TagOnImages {
+  id      Int   @id @default(autoincrement())
+  image   Image @relation(fields: [imageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  imageId Int
+  tag     Tag   @relation(fields: [tagId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  tagId   Int
+}
+
+enum Status {
+  Draft
+  Published
+  Archived
+}
+
+model Post {
+  id          Int            @id @default(autoincrement())
+  slug        String         @unique
+  title       String
+  description String
+  content     String
+  status      Status         @default(Draft)
+  publishedAt DateTime?
+  author      User           @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  authorId    Int
+  images      ImageOnPosts[]
+  tags        TagOnPosts[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model TagOnPosts {
+  id     Int  @id @default(autoincrement())
+  post   Post @relation(fields: [postId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  postId Int
+  tag    Tag  @relation(fields: [tagId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  tagId  Int
+}
+
+model ImageOnPosts {
+  id      Int   @id @default(autoincrement())
+  post    Post  @relation(fields: [postId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  postId  Int
+  image   Image @relation(fields: [imageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  imageId Int
+}
+
+model Gallery {
+  id          Int                @id @default(autoincrement())
+  slug        String             @unique
+  title       String
+  description String
+  status      Status             @default(Draft)
+  publishedAt DateTime?
+  images      ImageOnGalleries[]
+  tags        TagOnGalleries[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+model TagOnGalleries {
+  id        Int     @id @default(autoincrement())
+  gallery   Gallery @relation(fields: [galleryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  galleryId Int
+  tag       Tag     @relation(fields: [tagId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  tagId     Int
+}
+
+model ImageOnGalleries {
+  id        Int     @id @default(autoincrement())
+  gallery   Gallery @relation(fields: [galleryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  galleryId Int
+  image     Image   @relation(fields: [imageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  imageId   Int
+}
