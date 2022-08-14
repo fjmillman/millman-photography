@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     where: { status: Status.Published },
   });
 
-  const totalPages = total > 0 ? Math.ceil(total / size) : 0;
+  const totalPages = total > 0 ? Math.ceil(total / size) : 1;
 
   if (page > totalPages) {
     return redirect(`/galleries?page=${totalPages}`);
