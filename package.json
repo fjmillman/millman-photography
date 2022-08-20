@@ -15,6 +15,7 @@
     "prisma:push": "prisma db push",
     "pscale:deploy:request": "pscale deploy-request create millmanphotography `npm run pscale:current-branch`",
     "pscale:deploy": "pscale deploy-request deploy millmanphotography 1",
+    "schema:changed": "git diff --name-only main... schema.prisma",
     "tsc": "tsc -b",
     "eslint": "eslint --fix 'app/**/*.{js,jsx,ts,tsx}'",
     "prettier": "prettier --write 'app/**/*.{js,jsx,ts,tsx}'"
