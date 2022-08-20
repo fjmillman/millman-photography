@@ -1,0 +1,22 @@
+{
+  "extends": ["@remix-run/eslint-config", "@remix-run/eslint-config/node", "prettier"],
+  "rules": {
+    "import/order": [
+      "warn",
+      {
+        "pathGroups": [
+          {
+            "pattern": "~/**",
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        "groups": [["builtin", "external"], "internal", ["parent", "index", "sibling"]],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+  }
+}

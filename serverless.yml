@@ -1,0 +1,30 @@
+service: serverless-s3-local
+provider:
+  name: aws
+  runtime: nodejs14.x
+plugins:
+  - serverless-s3-local
+  - serverless-offline
+custom:
+  serverless-offline:
+    httpPort: 3005
+  s3:
+    host: localhost
+    directory: /tmp
+resources:
+  Resources:
+    NewResource:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: millman-photography
+functions:
+  webhook:
+    handler: handler.webhook
+    events:
+      - http:
+          method: GET
+          path: /
+  s3hook:
+    handler: handler.s3hook
+    events:
+      - s3: millman-photography
