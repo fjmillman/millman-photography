@@ -12,7 +12,7 @@ type Props = {
 };
 
 const BlogSection: FC<Props> = ({ posts }) => (
-  <section className="bg-white max-h-[500px] shadow-md relative w-screen ml-[-50vw] left-1/2">
+  <section className="bg-white shadow-md relative w-screen ml-[-50vw] left-1/2">
     <div className="max-w-screen-lg m-auto p-12 flex flex-col">
       <h1 className="text-xl font-bold mb-1 text-center">Blog</h1>
       <h2 className="text-lg mb-8 text-center">Find out what I&apos;ve been up to lately</h2>

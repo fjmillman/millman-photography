@@ -63,6 +63,7 @@ const App: RouteComponent = () => {
         <Layout user={user}>
           <Outlet />
         </Layout>
+        <div id="portal-root" />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{

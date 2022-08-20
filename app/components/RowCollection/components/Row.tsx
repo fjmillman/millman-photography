@@ -10,7 +10,7 @@ const Row: FC<Props> = ({ children, coverImage }) => (
     style={
       coverImage
         ? {
-            backgroundImage: `url(${coverImage.url}`,
+            backgroundImage: `url('${coverImage.url}'`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
           }
