@@ -7,6 +7,8 @@ import { useLoaderData } from '@remix-run/react';
 import PageHeader from '~/components/PageHeader';
 import prisma from '~/utils/prisma.server';
 
+type Data = Gallery;
+
 export const loader: LoaderFunction = async ({ params }) => {
   const { slug } = params;
 
@@ -26,7 +28,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     });
   }
 
-  return json(gallery);
+  return json<Data>(gallery);
 };
 
 export const meta: MetaFunction = ({ data }) => ({
@@ -34,7 +36,7 @@ export const meta: MetaFunction = ({ data }) => ({
 });
 
 const Slug: RouteComponent = () => {
-  const { title, description } = useLoaderData<Gallery>();
+  const { title, description } = useLoaderData<Data>();
 
   return (
     <>

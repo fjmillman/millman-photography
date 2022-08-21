@@ -14,7 +14,7 @@ export type Frontmatter = {
   description: string;
 };
 
-type Post = {
+type Data = {
   code: string;
   frontmatter: Frontmatter;
 };
@@ -42,7 +42,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     source: post.content,
   });
 
-  return json({ code, frontmatter });
+  return json<Data>({ code, frontmatter });
 };
 
 export const meta: MetaFunction = ({ data }) => ({
@@ -50,7 +50,7 @@ export const meta: MetaFunction = ({ data }) => ({
 });
 
 const Slug: RouteComponent = () => {
-  const { code, frontmatter } = useLoaderData<Post>();
+  const { code, frontmatter } = useLoaderData<Data>();
 
   const MDX = useMemo(() => getMDXComponent(code), [code]);
 

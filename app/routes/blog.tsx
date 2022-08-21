@@ -8,8 +8,11 @@ import PageHeader from '~/components/PageHeader';
 import PostPreview from '~/components/PostPreview';
 import RowCollection from '~/components/RowCollection';
 import prisma from '~/utils/prisma.server';
+import { unserializePost } from '~/utils/serialization';
 
 import type { PostWithTagsAndImages } from './posts';
+
+type Data = PostWithTagsAndImages[];
 
 export const loader: LoaderFunction = async () => {
   const posts: PostWithTagsAndImages[] = await prisma.post.findMany({
@@ -22,7 +25,7 @@ export const loader: LoaderFunction = async () => {
     take: 3,
   });
 
-  return json(posts);
+  return json<Data>(posts);
 };
 
 export const meta: MetaFunction = () => ({
@@ -30,30 +33,9 @@ export const meta: MetaFunction = () => ({
 });
 
 const Blog: RouteComponent = () => {
-  const serializedPosts = useLoaderData<PostWithTagsAndImages[]>();
+  const serializedPosts = useLoaderData<Data>();
 
-  const posts = serializedPosts.map((post) => ({
-    ...post,
-    publishedAt: post.publishedAt ? new Date(post.publishedAt) : null,
-    createdAt: new Date(post.createdAt),
-    updatedAt: new Date(post.updatedAt),
-    tags: post.tags.map((tag) => ({
-      ...tag,
-      tag: {
-        ...tag.tag,
-        createdAt: new Date(tag.tag.createdAt),
-        updatedAt: new Date(tag.tag.updatedAt),
-      },
-    })),
-    images: post.images.map((image) => ({
-      ...image,
-      image: {
-        ...image.image,
-        createdAt: new Date(image.image.createdAt),
-        updatedAt: new Date(image.image.updatedAt),
-      },
-    })),
-  }));
+  const posts = serializedPosts.map((post) => unserializePost(post));
 
   return (
     <>

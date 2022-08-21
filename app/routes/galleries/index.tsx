@@ -9,6 +9,7 @@ import MiniPreview from '~/components/MiniPreview';
 import PageCollection from '~/components/PageCollection';
 import PageHeader from '~/components/PageHeader';
 import prisma from '~/utils/prisma.server';
+import { unserializeGallery } from '~/utils/serialization';
 
 export type GalleryWithTagsAndImages = Gallery & {
   tags: (TagOnGalleries & {
@@ -17,6 +18,13 @@ export type GalleryWithTagsAndImages = Gallery & {
   images: (ImageOnGalleries & {
     image: Image;
   })[];
+};
+
+type Data = {
+  galleries: GalleryWithTagsAndImages[];
+  page: number;
+  size: number;
+  total: number;
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -43,7 +51,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     skip: (page - 1) * size,
   });
 
-  return json({ galleries, page, size, total });
+  return json<Data>({ galleries, page, size, total });
 };
 
 export const meta: MetaFunction = () => ({
@@ -51,40 +59,9 @@ export const meta: MetaFunction = () => ({
 });
 
 const Galleries = () => {
-  const {
-    galleries: serializedGalleries,
-    page,
-    size,
-    total,
-  } = useLoaderData<{
-    galleries: GalleryWithTagsAndImages[];
-    page: number;
-    size: number;
-    total: number;
-  }>();
+  const { galleries: serializedGalleries, page, size, total } = useLoaderData<Data>();
 
-  const galleries = serializedGalleries.map((gallery) => ({
-    ...gallery,
-    publishedAt: gallery.publishedAt ? new Date(gallery.publishedAt) : null,
-    createdAt: new Date(gallery.createdAt),
-    updatedAt: new Date(gallery.updatedAt),
-    tags: gallery.tags.map((tag) => ({
-      ...tag,
-      tag: {
-        ...tag.tag,
-        createdAt: new Date(tag.tag.createdAt),
-        updatedAt: new Date(tag.tag.updatedAt),
-      },
-    })),
-    images: gallery.images.map((image) => ({
-      ...image,
-      image: {
-        ...image.image,
-        createdAt: new Date(image.image.createdAt),
-        updatedAt: new Date(image.image.updatedAt),
-      },
-    })),
-  }));
+  const galleries = serializedGalleries.map((gallery) => unserializeGallery(gallery));
 
   const totalPages = Math.ceil(total / size);
 

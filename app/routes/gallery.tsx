@@ -8,8 +8,11 @@ import GalleryPreview from '~/components/GalleryPreview';
 import PageHeader from '~/components/PageHeader';
 import RowCollection from '~/components/RowCollection';
 import prisma from '~/utils/prisma.server';
+import { unserializeGallery } from '~/utils/serialization';
 
 import type { GalleryWithTagsAndImages } from './galleries';
+
+type Data = GalleryWithTagsAndImages[];
 
 export const loader: LoaderFunction = async () => {
   const galleries: GalleryWithTagsAndImages[] = await prisma.gallery.findMany({
@@ -22,7 +25,7 @@ export const loader: LoaderFunction = async () => {
     take: 3,
   });
 
-  return json(galleries);
+  return json<Data>(galleries);
 };
 
 export const meta: MetaFunction = () => ({
@@ -30,30 +33,9 @@ export const meta: MetaFunction = () => ({
 });
 
 const Blog: RouteComponent = () => {
-  const serializedGalleries = useLoaderData<GalleryWithTagsAndImages[]>();
+  const serializedGalleries = useLoaderData<Data>();
 
-  const galleries = serializedGalleries.map((gallery) => ({
-    ...gallery,
-    publishedAt: gallery.publishedAt ? new Date(gallery.publishedAt) : null,
-    createdAt: new Date(gallery.createdAt),
-    updatedAt: new Date(gallery.updatedAt),
-    tags: gallery.tags.map((tag) => ({
-      ...tag,
-      tag: {
-        ...tag.tag,
-        createdAt: new Date(tag.tag.createdAt),
-        updatedAt: new Date(tag.tag.updatedAt),
-      },
-    })),
-    images: gallery.images.map((image) => ({
-      ...image,
-      image: {
-        ...image.image,
-        createdAt: new Date(image.image.createdAt),
-        updatedAt: new Date(image.image.updatedAt),
-      },
-    })),
-  }));
+  const galleries = serializedGalleries.map((gallery) => unserializeGallery(gallery));
 
   return (
     <>
