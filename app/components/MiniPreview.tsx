@@ -21,10 +21,11 @@ const MiniPreview: FC<Props> = ({ title, description, tags, linkTo }) => (
     </div>
     <div className="flex flex-row justify-between items-center">
       <Tags tags={tags} />
-      <Link to={linkTo}>
-        <div className="h-8 w-8 p-1 cursor-pointer shadow-md rounded-sm text-black bg-white hover:bg-gray-200">
-          <img src={arrowRight} alt="arrow right" height={50} width={50} />
-        </div>
+      <Link
+        to={linkTo}
+        className="h-8 w-8 p-1 cursor-pointer shadow-md rounded-sm text-black bg-white hover:bg-gray-200"
+      >
+        <img src={arrowRight} alt="arrow right" height={50} width={50} />
       </Link>
     </div>
   </>

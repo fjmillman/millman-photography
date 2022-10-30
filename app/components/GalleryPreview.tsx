@@ -1,8 +1,7 @@
 import type { Tag } from '@prisma/client';
-import { Link } from '@remix-run/react';
 import type { FC } from 'react';
 
-import LinkButton from './Buttons/LinkButton';
+import NavigationLink from './Buttons/NavigationLink';
 import Tags from './Tags';
 
 type Props = {
@@ -18,9 +17,7 @@ const GalleryPreview: FC<Props> = ({ title, description, tags, slug }) => (
     <h2 className="text-sm mb-8">{description}</h2>
     <Tags tags={tags} />
     <div className="mt-12 mx-auto">
-      <Link to={`/galleries/${slug}`}>
-        <LinkButton>Check out the gallery</LinkButton>
-      </Link>
+      <NavigationLink to={`/galleries/${slug}`}>Check out the gallery</NavigationLink>
     </div>
   </>
 );

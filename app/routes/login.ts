@@ -1,4 +1,5 @@
-import type { ActionFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import { json } from '@remix-run/node';
 
 import type { LoginFormData } from '~/utils/auth.server';
@@ -18,3 +19,5 @@ export const action: ActionFunction = async ({ request }) => {
 
   return await login(loginFormData);
 };
+
+export const loader: LoaderFunction = async () => redirect('/');

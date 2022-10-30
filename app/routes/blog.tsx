@@ -1,9 +1,9 @@
 import { Status } from '@prisma/client';
 import type { LoaderFunction, MetaFunction, RouteComponent } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 
-import LinkButton from '~/components/Buttons/LinkButton';
+import NavigationLink from '~/components/Buttons/NavigationLink';
 import PageHeader from '~/components/PageHeader';
 import PostPreview from '~/components/PostPreview';
 import RowCollection from '~/components/RowCollection';
@@ -51,9 +51,7 @@ const Blog: RouteComponent = () => {
         )}
       />
       <div className="flex w-full justify-around mt-8">
-        <Link to="/posts">
-          <LinkButton>Check out all of my posts</LinkButton>
-        </Link>
+        <NavigationLink to="/posts">Check out all of my posts</NavigationLink>
       </div>
     </>
   );

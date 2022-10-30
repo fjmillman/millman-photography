@@ -1,9 +1,8 @@
-import { Link } from '@remix-run/react';
 import type { FC } from 'react';
 
 import type { GalleryWithTagsAndImages } from '~/routes/galleries';
 
-import LinkButton from '../Buttons/LinkButton';
+import NavigationLink from '../Buttons/NavigationLink';
 import CardCollection from '../CardCollection';
 import MiniPreview from '../MiniPreview';
 
@@ -30,9 +29,7 @@ const GallerySection: FC<Props> = ({ galleries }) => (
         )}
       />
       <div className="text-md font-bold mt-12 mx-auto">
-        <Link to="/gallery">
-          <LinkButton>Go to my gallery</LinkButton>
-        </Link>
+        <NavigationLink to="/gallery">Go to my gallery</NavigationLink>
       </div>
     </div>
   </section>

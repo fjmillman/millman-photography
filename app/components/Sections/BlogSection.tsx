@@ -1,9 +1,8 @@
-import { Link } from '@remix-run/react';
 import type { FC } from 'react';
 
 import type { PostWithTagsAndImages } from '~/routes/posts';
 
-import LinkButton from '../Buttons/LinkButton';
+import NavigationLink from '../Buttons/NavigationLink';
 import CardCollection from '../CardCollection';
 import MiniPreview from '../MiniPreview';
 
@@ -30,9 +29,7 @@ const BlogSection: FC<Props> = ({ posts }) => (
         )}
       />
       <div className="text-md font-bold mt-12 mx-auto">
-        <Link to="/blog">
-          <LinkButton>Go to my blog</LinkButton>
-        </Link>
+        <NavigationLink to="/blog">Go to my blog</NavigationLink>
       </div>
     </div>
   </section>

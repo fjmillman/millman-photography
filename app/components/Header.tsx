@@ -9,7 +9,6 @@ import closeIcon from '~/icons/close-icon.svg';
 import menuIcon from '~/icons/menu-icon.svg';
 import logo from '~/images/signature.png';
 
-import IconButton from './Buttons/IconButton';
 import NavigationButton from './Buttons/NavigationButton';
 import LoginModal from './LoginModal';
 import NavigationBar from './NavigationBar';
@@ -32,7 +31,7 @@ const Header: FC<Props> = ({ user }) => {
       ariaLabel="Log out"
       disabled={state === 'submitting'}
     >
-      <p>{state === 'submitting' ? 'Logging out' : 'Logout'}</p>
+      {state === 'submitting' ? 'Logging out' : 'Logout'}
     </NavigationButton>
   ) : (
     <LoginModal />
@@ -46,10 +45,8 @@ const Header: FC<Props> = ({ user }) => {
         </Link>
         {width < 1028 ? (
           <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger>
-              <IconButton onClick={() => setOpen(true)} ariaLabel="Open Menu">
-                <img src={menuIcon} alt="menu" />
-              </IconButton>
+            <Dialog.Trigger onClick={() => setOpen(true)} className="w-8 p-1 shadow-md" aria-label="Open Menu">
+              <img src={menuIcon} alt="menu" />
             </Dialog.Trigger>
             <Dialog.Portal>
               <Dialog.Overlay />
@@ -64,10 +61,8 @@ const Header: FC<Props> = ({ user }) => {
                     <NavigationBar />
                   </div>
                   <div className="flex-shrink">{authenticationButton}</div>
-                  <Dialog.Close className="absolute top-2 right-2">
-                    <IconButton onClick={() => setOpen(false)}>
-                      <img src={closeIcon} alt="close icon" />
-                    </IconButton>
+                  <Dialog.Close onClick={() => setOpen(false)} className="absolute top-2 right-2">
+                    <img src={closeIcon} alt="close icon" />
                   </Dialog.Close>
                 </div>
               </Dialog.Content>
