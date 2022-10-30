@@ -15,6 +15,7 @@
     "dev:remix": "remix dev",
     "generate:css": "tailwindcss -i ./styles/app.css -o app/styles/app.css",
     "prisma:generate": "prisma generate",
+    "prisma:seed": "prisma db seed",
     "prisma:push": "prisma db push",
     "pscale:current-branches": "pscale branch list millmanphotography -f json | jq -r ['.[].name']",
     "pscale:current-branch": "branch=`git branch --show-current` ; if [[ `npm run pscale:current-branches` == *\"$branch\"* ]]; then echo \"$branch\"; else echo 'main'; fi",
