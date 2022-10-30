@@ -1,5 +1,8 @@
-import type { ActionFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 
 import { logout } from '~/utils/auth.server';
 
 export const action: ActionFunction = ({ request }) => logout(request);
+
+export const loader: LoaderFunction = async () => redirect('/');
