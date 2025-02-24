@@ -3,9 +3,9 @@ import type { FC } from 'react';
 
 import Tag from './Tag';
 
-type Props = {
+interface Props {
   tags: TagType[];
-};
+}
 
 const Tags: FC<Props> = ({ tags }) => (
   <div className="flex flex-row">

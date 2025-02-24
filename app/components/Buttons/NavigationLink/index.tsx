@@ -1,5 +1,5 @@
-import { Link } from '@remix-run/react';
 import type { FC, PropsWithChildren } from 'react';
+import { Link } from 'react-router';
 
 type Props = PropsWithChildren<{
   to: string;

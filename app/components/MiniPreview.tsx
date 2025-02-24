@@ -1,17 +1,17 @@
 import type { Tag } from '@prisma/client';
-import { Link } from '@remix-run/react';
 import type { FC } from 'react';
+import { Link } from 'react-router';
 
 import arrowRight from '~/icons/arrow-right.svg';
 
 import Tags from './Tags';
 
-type Props = {
+interface Props {
   title: string;
   description: string;
   tags: Tag[];
   linkTo: string;
-};
+}
 
 const MiniPreview: FC<Props> = ({ title, description, tags, linkTo }) => (
   <>

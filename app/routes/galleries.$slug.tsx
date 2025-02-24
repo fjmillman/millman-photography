@@ -1,19 +1,15 @@
-import type { Gallery } from '@prisma/client';
 import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction, RouteComponent } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
 
 import PageHeader from '~/components/PageHeader';
 import prisma from '~/utils/prisma.server';
 
-type Data = Gallery;
+import type { Route } from './+types/galleries.$slug';
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader = async ({ params }: Route.LoaderArgs) => {
   const { slug } = params;
 
   if (!slug) {
-    throw new Response('Bad Request', {
+    return new Response('Bad Request', {
       status: 400,
     });
   }
@@ -23,20 +19,20 @@ export const loader: LoaderFunction = async ({ params }) => {
   });
 
   if (!gallery) {
-    throw new Response('Not Found', {
+    return new Response('Not Found', {
       status: 404,
     });
   }
 
-  return json<Data>(gallery);
+  return gallery;
 };
 
-export const meta: MetaFunction = ({ data }) => ({
+export const meta = ({ data }: Route.MetaArgs) => ({
   title: `${data.title} - Millman Photography`,
 });
 
-const Slug: RouteComponent = () => {
-  const { title, description } = useLoaderData<Data>();
+const Slug = ({ loaderData }: Route.ComponentProps) => {
+  const { title, description } = loaderData;
 
   return (
     <>

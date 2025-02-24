@@ -1,7 +1,4 @@
 import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction, RouteComponent } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
 
 import AboutMeSection from '~/components/Sections/AboutMeSection';
 import BlogSection from '~/components/Sections/BlogSection';
@@ -9,17 +6,12 @@ import GallerySection from '~/components/Sections/GallerySection';
 import HeroSection from '~/components/Sections/HeroSection';
 import ServicesSection from '~/components/Sections/ServicesSection';
 import prisma from '~/utils/prisma.server';
-import { unserializeGallery, unserializePost } from '~/utils/serialization';
 
+import type { Route } from './+types/_index';
 import type { GalleryWithTagsAndImages } from './galleries';
 import type { PostWithTagsAndImages } from './posts';
 
-type Data = {
-  posts: PostWithTagsAndImages[];
-  galleries: GalleryWithTagsAndImages[];
-};
-
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const posts: PostWithTagsAndImages[] = await prisma.post.findMany({
     where: { status: Status.Published },
     include: {
@@ -40,18 +32,15 @@ export const loader: LoaderFunction = async () => {
     take: 3,
   });
 
-  return json<Data>({ posts, galleries });
+  return { posts, galleries };
 };
 
-export const meta: MetaFunction = () => ({
+export const meta = () => ({
   title: 'Millman Photography',
 });
 
-const Index: RouteComponent = () => {
-  const { posts: serializedPosts, galleries: serializedGalleries } = useLoaderData<Data>();
-
-  const posts = serializedPosts.map((post) => unserializePost(post));
-  const galleries = serializedGalleries.map((gallery) => unserializeGallery(gallery));
+const Index = ({ loaderData }: Route.ComponentProps) => {
+  const { posts, galleries } = loaderData;
 
   return (
     <>

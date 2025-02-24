@@ -1,10 +1,10 @@
 import type { Tag, User, Image } from '@prisma/client';
-import { Status } from '@prisma/client';
-import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt';
+import { Status, PrismaClient } from '@prisma/client';
+import { genSaltSync, hashSync } from 'bcrypt';
 import cuid from 'cuid';
 import { readFileSync } from 'fs';
 import path from 'path';
+import { Upload } from '@aws-sdk/lib-storage';
 
 import s3 from '../app/utils/s3';
 
@@ -25,7 +25,7 @@ async function main() {
     isAdmin: true,
   }]
 
-  const salt = await bcrypt.genSalt(10);
+  const salt = genSaltSync(10);
 
   const users = await Promise.all(userFixtures.map(async ({ password, ...user}) => {
     return await prisma.user.upsert({
@@ -33,7 +33,7 @@ async function main() {
       update: {},
       create: {
         ...user,
-        password: await bcrypt.hash(password, salt),
+        password: hashSync(password, salt),
       },
     })
   }));
@@ -65,9 +65,8 @@ async function main() {
   const clearImagesFromS3 = async () => {
     const { Contents } = await s3
       .listObjects({
-        Bucket: process.env.S3_BUCKET_NAME || '',
-      })
-      .promise();
+        Bucket: process.env.S3_BUCKET_NAME ?? '',
+      });
 
     if (!Contents) {
       return
@@ -81,27 +80,33 @@ async function main() {
 
       await s3
         .deleteObject({
-          Bucket: process.env.S3_BUCKET_NAME || '',
+          Bucket: process.env.S3_BUCKET_NAME ?? '',
           Key,
-        })
-        .promise();
+        });
     }
   }
 
   const uploadImageToS3 =  async (filename: string) => {
     const filepath = path.join(__dirname, `../app/images/${filename}`);
-    const image = await readFileSync(filepath)
+    const image = readFileSync(filepath)
   
-    const { Location } = await s3
-      .upload({
-        Bucket: process.env.S3_BUCKET_NAME || '',
-        Key: `${cuid()}.${filename.split('.').slice(-1)}`,
+    const upload = new Upload({
+      client: s3,
+      params: {
+        Bucket: process.env.S3_BUCKET_NAME ?? '',
+        Key: `${cuid()}.${filename.split('.').slice(-1)[0]}`,
         Body: image,
         ContentType: 'image/jpg',
-      })
-      .promise();
+      },
+    });
 
-    return Location;
+    const { Location } = await upload.done();
+
+    if (!Location){
+      throw new Error('Failed');
+    }
+
+    return Location
   }
 
   await clearImagesFromS3()
@@ -227,7 +232,7 @@ main()
   .then(async () => {
     await prisma.$disconnect()
   })
-  .catch(async (e) => {
+  .catch(async (e: unknown) => {
     console.error(e)
     await prisma.$disconnect()
     process.exit(1)

@@ -1,20 +1,15 @@
 import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction, RouteComponent } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
 
 import NavigationLink from '~/components/Buttons/NavigationLink';
 import PageHeader from '~/components/PageHeader';
 import PostPreview from '~/components/PostPreview';
 import RowCollection from '~/components/RowCollection';
 import prisma from '~/utils/prisma.server';
-import { unserializePost } from '~/utils/serialization';
 
+import type { Route } from './+types/blog';
 import type { PostWithTagsAndImages } from './posts';
 
-type Data = PostWithTagsAndImages[];
-
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const posts: PostWithTagsAndImages[] = await prisma.post.findMany({
     where: { status: Status.Published },
     include: {
@@ -25,17 +20,15 @@ export const loader: LoaderFunction = async () => {
     take: 3,
   });
 
-  return json<Data>(posts);
+  return { posts };
 };
 
-export const meta: MetaFunction = () => ({
+export const meta = () => ({
   title: 'Blog - Millman Photography',
 });
 
-const Blog: RouteComponent = () => {
-  const serializedPosts = useLoaderData<Data>();
-
-  const posts = serializedPosts.map((post) => unserializePost(post));
+const Blog = ({ loaderData }: Route.ComponentProps) => {
+  const { posts } = loaderData;
 
   return (
     <>

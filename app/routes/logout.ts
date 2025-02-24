@@ -1,8 +1,9 @@
-import type { ActionFunction, LoaderFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
+import { redirect } from 'react-router';
 
 import { logout } from '~/utils/auth.server';
 
-export const action: ActionFunction = ({ request }) => logout(request);
+import type { Route } from './+types/logout';
 
-export const loader: LoaderFunction = async () => redirect('/');
+export const action = ({ request }: Route.ActionArgs) => logout(request);
+
+export const loader = () => redirect('/');

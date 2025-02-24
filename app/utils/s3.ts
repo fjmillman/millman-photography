@@ -1,4 +1,4 @@
-import S3 from 'aws-sdk/clients/s3';
+import { S3 } from '@aws-sdk/client-s3';
 
 const s3 = new S3({
   region: process.env.S3_BUCKET_REGION,

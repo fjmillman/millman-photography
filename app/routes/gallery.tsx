@@ -1,20 +1,15 @@
 import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction, RouteComponent } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
 
 import NavigationLink from '~/components/Buttons/NavigationLink';
 import GalleryPreview from '~/components/GalleryPreview';
 import PageHeader from '~/components/PageHeader';
 import RowCollection from '~/components/RowCollection';
 import prisma from '~/utils/prisma.server';
-import { unserializeGallery } from '~/utils/serialization';
 
+import type { Route } from './+types/gallery';
 import type { GalleryWithTagsAndImages } from './galleries';
 
-type Data = GalleryWithTagsAndImages[];
-
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
   const galleries: GalleryWithTagsAndImages[] = await prisma.gallery.findMany({
     where: { status: Status.Published },
     include: {
@@ -25,17 +20,15 @@ export const loader: LoaderFunction = async () => {
     take: 3,
   });
 
-  return json<Data>(galleries);
+  return { galleries };
 };
 
-export const meta: MetaFunction = () => ({
+export const meta = () => ({
   title: 'Gallery - Millman Photography',
 });
 
-const Blog: RouteComponent = () => {
-  const serializedGalleries = useLoaderData<Data>();
-
-  const galleries = serializedGalleries.map((gallery) => unserializeGallery(gallery));
+const Blog = ({ loaderData }: Route.ComponentProps) => {
+  const { galleries } = loaderData;
 
   return (
     <>

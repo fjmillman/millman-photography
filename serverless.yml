@@ -1,7 +1,7 @@
 service: serverless-s3-local
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs22.x
 plugins:
   - serverless-s3-local
   - serverless-offline
