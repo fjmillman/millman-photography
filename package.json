@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky",
     "build": "run-s \"build:*\"",
     "build:prisma": "npm run prisma:generate && npm run prisma:push",
     "build:react": "react-router build",
