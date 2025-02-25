@@ -35,9 +35,11 @@ export const loader = async () => {
   return { posts, galleries };
 };
 
-export const meta = () => ({
-  title: 'Millman Photography',
-});
+export const meta = () => [
+  {
+    title: 'Millman Photography',
+  },
+];
 
 const Index = ({ loaderData }: Route.ComponentProps) => {
   const { posts, galleries } = loaderData;

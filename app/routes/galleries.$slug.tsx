@@ -27,9 +27,11 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   return gallery;
 };
 
-export const meta = ({ data }: Route.MetaArgs) => ({
-  title: `${data.title} - Millman Photography`,
-});
+export const meta = ({ data }: Route.MetaArgs) => [
+  {
+    title: `${data.title} - Millman Photography`,
+  },
+];
 
 const Slug = ({ loaderData }: Route.ComponentProps) => {
   const { title, description } = loaderData;

@@ -23,9 +23,11 @@ export const loader = async () => {
   return { galleries };
 };
 
-export const meta = () => ({
-  title: 'Gallery - Millman Photography',
-});
+export const meta = () => [
+  {
+    title: 'Gallery - Millman Photography',
+  },
+];
 
 const Blog = ({ loaderData }: Route.ComponentProps) => {
   const { galleries } = loaderData;

@@ -1,22 +1,15 @@
 import type { Tag, User, Image } from '@prisma/client';
 import { Status, PrismaClient } from '@prisma/client';
-import { genSaltSync, hashSync } from 'bcrypt';
+import { genSaltSync, hashSync } from 'bcryptjs';
 import cuid from 'cuid';
-import { readFileSync } from 'fs';
+import { createReadStream } from 'fs';
 import path from 'path';
-import { Upload } from '@aws-sdk/lib-storage';
 
-import s3 from '../app/utils/s3';
+import { deleteObject, listObjects, uploadObject } from '../app/utils/s3';
 
 const prisma = new PrismaClient()
 
 async function main() {
-  await prisma.user.deleteMany()
-  await prisma.tag.deleteMany()
-  await prisma.image.deleteMany()
-  await prisma.post.deleteMany()
-  await prisma.gallery.deleteMany()
-
   const userFixtures = [{
     email: 'admin@millmanphotography.co.uk',
     password: 'abc123',
@@ -63,50 +56,25 @@ async function main() {
   }
 
   const clearImagesFromS3 = async () => {
-    const { Contents } = await s3
-      .listObjects({
-        Bucket: process.env.S3_BUCKET_NAME ?? '',
-      });
+    const objects = await listObjects(process.env.S3_BUCKET_NAME ?? '', 3);
 
-    if (!Contents) {
-      return
-    }
-
-    for (const Content of Contents) {
-      const { Key } = Content
-      if (!Key) {
-        continue
-      }
-
-      await s3
-        .deleteObject({
-          Bucket: process.env.S3_BUCKET_NAME ?? '',
-          Key,
-        });
+    for (const object of objects ?? []) {
+      await deleteObject(process.env.S3_BUCKET_NAME ?? '', object)
     }
   }
 
   const uploadImageToS3 =  async (filename: string) => {
     const filepath = path.join(__dirname, `../app/images/${filename}`);
-    const image = readFileSync(filepath)
+    const image = createReadStream(filepath)
   
-    const upload = new Upload({
-      client: s3,
-      params: {
-        Bucket: process.env.S3_BUCKET_NAME ?? '',
-        Key: `${cuid()}.${filename.split('.').slice(-1)[0]}`,
-        Body: image,
-        ContentType: 'image/jpg',
-      },
-    });
-
-    const { Location } = await upload.done();
-
-    if (!Location){
-      throw new Error('Failed');
+    const bucketName = process.env.S3_BUCKET_NAME ?? '';
+    const key = `${cuid()}.${filename.split('.').slice(-1)[0]}`;
+    const url = await uploadObject(bucketName, key, image);
+    if (!url) {
+      throw new Error('Failed to upload object')
     }
 
-    return Location
+    return url;
   }
 
   await clearImagesFromS3()

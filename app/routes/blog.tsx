@@ -23,9 +23,11 @@ export const loader = async () => {
   return { posts };
 };
 
-export const meta = () => ({
-  title: 'Blog - Millman Photography',
-});
+export const meta = () => [
+  {
+    title: 'Blog - Millman Photography',
+  },
+];
 
 const Blog = ({ loaderData }: Route.ComponentProps) => {
   const { posts } = loaderData;

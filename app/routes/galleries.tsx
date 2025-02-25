@@ -45,9 +45,11 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   return { galleries, page, size, total };
 };
 
-export const meta = () => ({
-  title: 'Galleries - Millman Photography',
-});
+export const meta = () => [
+  {
+    title: 'Galleries - Millman Photography',
+  },
+];
 
 const Galleries = ({ loaderData }: Route.ComponentProps) => {
   const { galleries, page, size, total } = loaderData;

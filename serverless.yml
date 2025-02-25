@@ -22,9 +22,10 @@ functions:
     handler: handler.webhook
     events:
       - http:
-          method: GET
-          path: /
+        method: GET
+        path: /
   s3hook:
     handler: handler.s3hook
     events:
       - s3: millman-photography
+        event: s3:*

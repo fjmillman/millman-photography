@@ -39,9 +39,11 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   return { code, frontmatter };
 };
 
-export const meta = ({ data }: Route.MetaArgs) => ({
-  title: `${data.frontmatter.title} - Millman Photography`,
-});
+export const meta = ({ data }: Route.MetaArgs) => [
+  {
+    title: `${data.frontmatter.title} - Millman Photography`,
+  },
+];
 
 const Slug = ({ loaderData }: Route.ComponentProps) => {
   const { code, frontmatter } = loaderData;

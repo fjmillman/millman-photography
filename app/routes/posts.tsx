@@ -45,9 +45,11 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   return { posts, page, size, total };
 };
 
-export const meta = () => ({
-  title: 'Posts - Millman Photography',
-});
+export const meta = () => [
+  {
+    title: 'Posts - Millman Photography',
+  },
+];
 
 const Posts = ({ loaderData }: Route.ComponentProps) => {
   const { posts, page, size, total } = loaderData;

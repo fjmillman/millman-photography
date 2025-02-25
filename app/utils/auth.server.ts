@@ -1,4 +1,4 @@
-import { compareSync } from 'bcrypt';
+import { compareSync } from 'bcryptjs';
 import { data, createCookieSessionStorage, redirect } from 'react-router';
 
 import prisma from './prisma.server';

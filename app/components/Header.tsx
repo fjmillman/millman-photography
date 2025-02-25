@@ -38,8 +38,8 @@ const Header: FC<Props> = ({ user }) => {
   );
 
   return (
-    <header className="sticky t-0 p-4 bg-white shadow-lg">
-      <div className="flex flex-row align-center justify-between max-w-screen-lg m-auto">
+    <header className="sticky t-0 p-4 bg-white shadow-lg ">
+      <div className="flex flex-row align-center items-center justify-between max-w-screen-lg m-auto">
         <Link to="/">
           <img src={logo} alt="Millman Photography Logo" width={125} />
         </Link>
