@@ -20,7 +20,7 @@
     "prisma:push": "prisma db push",
     "migration:generate": "prisma migrate dev --name init",
     "migration:apply": "turso db shell turso-prisma-db < ./prisma/migrations/20230922132717_init/migration.sql",
-    "tsc": "react-router typegen && tsc",
+    "typecheck": "react-router typegen && tsc",
     "lint": "eslint 'app/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write 'app/**/*.{js,jsx,ts,tsx}'",
