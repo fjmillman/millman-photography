@@ -1,5 +1,5 @@
-import type { Gallery, Image, ImageOnGalleries, Tag, TagOnGalleries } from '@prisma/client';
-import { Status } from '@prisma/client';
+import type { Gallery, Image, ImageOnGalleries, Tag, TagOnGalleries } from '@prisma/client-generated';
+import { Status } from '@prisma/client-generated';
 import { redirect, useFetcher } from 'react-router';
 
 import MiniPreview from '~/components/MiniPreview';

@@ -1,4 +1,4 @@
-import type { User } from '@prisma/client';
+import type { User } from '@prisma/client-generated';
 import * as Dialog from '@radix-ui/react-dialog';
 import type { FC } from 'react';
 import { useState } from 'react';

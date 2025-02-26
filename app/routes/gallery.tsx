@@ -1,4 +1,4 @@
-import { Status } from '@prisma/client';
+import { Status } from '@prisma/client-generated';
 
 import NavigationLink from '~/components/Buttons/NavigationLink';
 import GalleryPreview from '~/components/GalleryPreview';
