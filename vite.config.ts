@@ -12,5 +12,9 @@ export default defineConfig(({ command }) => ({
   plugins: [tailwindcss(), mdx({
     rehypePlugins: [mdxImportMediaPlugin],
   }), reactRouter(), tsconfigPaths()],
-  serverExternalPackages: ['@prisma/adapter-libsql'],
+  build: {
+    commonjsOptions: {
+      dynamicRequireTargets: ["@libsql/linux-x64-gnu"]
+    }
+  }
 }));
