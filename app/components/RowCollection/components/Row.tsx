@@ -1,4 +1,4 @@
-import type { Image } from '@prisma/client/edge';
+import type { Image } from '@prisma/client';
 import type { FC, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{

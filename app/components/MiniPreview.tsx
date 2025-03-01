@@ -1,4 +1,4 @@
-import type { Tag } from '@prisma/client/edge';
+import type { Tag } from '@prisma/client';
 import type { FC } from 'react';
 import { Link } from 'react-router';
 

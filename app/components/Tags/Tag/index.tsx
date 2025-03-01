@@ -1,4 +1,4 @@
-import type { Tag as TagType } from '@prisma/client/edge';
+import type { Tag as TagType } from '@prisma/client';
 import type { FC } from 'react';
 
 import Lozenge from '../../Lozenge';

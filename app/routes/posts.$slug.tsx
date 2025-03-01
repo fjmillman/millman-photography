@@ -1,4 +1,4 @@
-import { Status } from '@prisma/client/edge';
+import { Status } from '@prisma/client';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { useMemo } from 'react';
 

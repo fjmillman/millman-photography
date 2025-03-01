@@ -1,5 +1,5 @@
-import type { Post, Image, ImageOnPosts, Tag, TagOnPosts } from '@prisma/client/edge';
-import { Status } from '@prisma/client/edge';
+import type { Post, Image, ImageOnPosts, Tag, TagOnPosts } from '@prisma/client';
+import { Status } from '@prisma/client';
 import { redirect, useFetcher } from 'react-router';
 
 import MiniPreview from '~/components/MiniPreview';
