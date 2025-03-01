@@ -12,9 +12,4 @@ export default defineConfig(({ command }) => ({
   plugins: [tailwindcss(), mdx({
     rehypePlugins: [mdxImportMediaPlugin],
   }), reactRouter(), tsconfigPaths()],
-  build: {
-    commonjsOptions: {
-      dynamicRequireTargets: ["@libsql/linux-x64-gnu"]
-    }
-  }
 }));
