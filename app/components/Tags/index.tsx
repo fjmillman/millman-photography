@@ -1,4 +1,4 @@
-import type { Tag as TagType } from '@prisma/client-generated';
+import type { Tag as TagType } from '@prisma/client/edge';
 import type { FC } from 'react';
 
 import Tag from './Tag';

@@ -1,4 +1,4 @@
-import type { Image } from '@prisma/client-generated';
+import type { Image } from '@prisma/client/edge';
 import type { ReactNode } from 'react';
 
 import CardCollection from './CardCollection';

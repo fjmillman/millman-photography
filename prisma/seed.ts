@@ -1,5 +1,5 @@
-import type { Tag, User, Image } from '@prisma/client-generated';
-import { Status, PrismaClient } from '@prisma/client-generated';
+import type { Tag, User, Image } from '@prisma/client/edge';
+import { Status, PrismaClient } from '@prisma/client/edge';
 import { genSaltSync, hashSync } from 'bcryptjs';
 import cuid from 'cuid';
 import { createReadStream } from 'fs';

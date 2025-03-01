@@ -1,4 +1,4 @@
-import { Status } from '@prisma/client-generated';
+import { Status } from '@prisma/client/edge';
 
 import NavigationLink from '~/components/Buttons/NavigationLink';
 import PageHeader from '~/components/PageHeader';

@@ -1,4 +1,4 @@
-import { Status } from '@prisma/client-generated';
+import { Status } from '@prisma/client/edge';
 
 import PageHeader from '~/components/PageHeader';
 import prisma from '~/utils/prisma.server';

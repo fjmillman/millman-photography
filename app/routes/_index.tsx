@@ -1,4 +1,4 @@
-import { Status } from '@prisma/client-generated';
+import { Status } from '@prisma/client/edge';
 
 import AboutMeSection from '~/components/Sections/AboutMeSection';
 import BlogSection from '~/components/Sections/BlogSection';
