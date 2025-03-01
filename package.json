@@ -89,7 +89,7 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "engines": {
-    "node": "23.x"
+    "node": "22.x"
   },
   "overrides": {
     "serverless-s3-local": {
