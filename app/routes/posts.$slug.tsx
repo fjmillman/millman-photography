@@ -1,8 +1,8 @@
-import { Status } from '@prisma/client';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { useMemo } from 'react';
 
 import PageHeader from '~/components/PageHeader';
+import { Status } from '~/prisma/generated';
 import bundleMDX from '~/utils/bundleMDX.server';
 import prisma from '~/utils/prisma.server';
 

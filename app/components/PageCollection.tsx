@@ -1,5 +1,6 @@
-import type { Image } from '@prisma/client';
 import type { ReactNode } from 'react';
+
+import type { Image } from '~/prisma/generated';
 
 import CardCollection from './CardCollection';
 import Pagination from './Pagination';

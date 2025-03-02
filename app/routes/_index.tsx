@@ -1,10 +1,10 @@
-import { Status } from '@prisma/client';
 
 import AboutMeSection from '~/components/Sections/AboutMeSection';
 import BlogSection from '~/components/Sections/BlogSection';
 import GallerySection from '~/components/Sections/GallerySection';
 import HeroSection from '~/components/Sections/HeroSection';
 import ServicesSection from '~/components/Sections/ServicesSection';
+import { Status } from '~/prisma/generated';
 import prisma from '~/utils/prisma.server';
 
 import type { Route } from './+types/_index';

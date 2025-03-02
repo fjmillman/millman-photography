@@ -1,5 +1,6 @@
-import type { Image } from '@prisma/client';
 import type { Attributes, ReactNode } from 'react';
+
+import type { Image } from '~/prisma/generated';
 
 import Row from './components/Row';
 import RowContent from './components/RowContent';

@@ -16,7 +16,8 @@
     "rootDirs": [".", "./.react-router/types"],
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "~/prisma/generated": ["./prisma/generated"]
     },
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,

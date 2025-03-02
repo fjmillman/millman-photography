@@ -1,8 +1,8 @@
-import type { Tag } from '@prisma/client';
 import type { FC } from 'react';
 import { Link } from 'react-router';
 
 import arrowRight from '~/icons/arrow-right.svg';
+import type { Tag } from '~/prisma/generated';
 
 import Tags from './Tags';
 

@@ -1,5 +1,6 @@
-import type { Image } from '@prisma/client';
 import type { FC, PropsWithChildren } from 'react';
+
+import type { Image } from '~/prisma/generated';
 
 type Props = PropsWithChildren<{
   coverImage?: Image;

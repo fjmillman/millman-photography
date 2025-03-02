@@ -1,5 +1,6 @@
-import type { Tag } from '@prisma/client';
 import type { FC } from 'react';
+
+import type { Tag } from '~/prisma/generated';
 
 import NavigationLink from './Buttons/NavigationLink';
 import Tags from './Tags';
