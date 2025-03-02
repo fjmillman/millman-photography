@@ -12,7 +12,3 @@
 
 # Serverless
 .serverless
-
-# Prisma
-/prisma/dev.db
-/prisma/generated/

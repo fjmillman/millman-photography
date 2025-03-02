@@ -1,3 +1,4 @@
+import type { User } from '@prisma/client-generated';
 import * as Dialog from '@radix-ui/react-dialog';
 import type { FC } from 'react';
 import { useState } from 'react';
@@ -7,7 +8,6 @@ import useWindowWidth from '~/hooks/useWindowWidth';
 import closeIcon from '~/icons/close-icon.svg';
 import menuIcon from '~/icons/menu-icon.svg';
 import logo from '~/images/signature.png';
-import type { User } from '~/prisma/generated';
 
 import NavigationButton from './Buttons/NavigationButton';
 import LoginModal from './LoginModal';

@@ -1,5 +1,6 @@
+import { Status } from '@prisma/client-generated';
+
 import PageHeader from '~/components/PageHeader';
-import { Status } from '~/prisma/generated';
 import prisma from '~/utils/prisma.server';
 
 import type { Route } from './+types/galleries.$slug';

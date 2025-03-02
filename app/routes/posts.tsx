@@ -1,10 +1,10 @@
+import { Status } from '@prisma/client-generated';
+import type { Post, Image, ImageOnPosts, Tag, TagOnPosts } from '@prisma/client-generated';
 import { redirect, useFetcher } from 'react-router';
 
 import MiniPreview from '~/components/MiniPreview';
 import PageCollection from '~/components/PageCollection';
 import PageHeader from '~/components/PageHeader';
-import { Status } from '~/prisma/generated';
-import type { Post, Image, ImageOnPosts, Tag, TagOnPosts } from '~/prisma/generated';
 import prisma from '~/utils/prisma.server';
 
 import type { Route } from './+types/posts';

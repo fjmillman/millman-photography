@@ -1,9 +1,9 @@
+import { Status } from '@prisma/client-generated';
 
 import NavigationLink from '~/components/Buttons/NavigationLink';
 import GalleryPreview from '~/components/GalleryPreview';
 import PageHeader from '~/components/PageHeader';
 import RowCollection from '~/components/RowCollection';
-import { Status } from '~/prisma/generated';
 import prisma from '~/utils/prisma.server';
 
 import type { Route } from './+types/gallery';
