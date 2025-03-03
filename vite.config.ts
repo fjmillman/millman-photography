@@ -12,4 +12,11 @@ export default defineConfig(({ command }) => ({
   plugins: [tailwindcss(), mdx({
     rehypePlugins: [mdxImportMediaPlugin],
   }), reactRouter(), tsconfigPaths()],
+  build: {
+    rollupOptions: {
+      external: [
+        '@libsql/linux-x64-gnu'
+      ]
+    }
+  }
 }));
