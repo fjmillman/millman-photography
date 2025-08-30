@@ -1,7 +1,6 @@
 import type { Image } from '@prisma/client-generated';
 import type { Attributes, ReactNode } from 'react';
 
-
 import Card from './components/Card';
 import CardContent from './components/CardContent';
 

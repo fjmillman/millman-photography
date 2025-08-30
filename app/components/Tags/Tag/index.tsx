@@ -1,7 +1,6 @@
 import type { Tag as TagType } from '@prisma/client-generated';
 import type { FC } from 'react';
 
-
 import Lozenge from '../../Lozenge';
 
 const Tag: FC<TagType> = ({ name }) => (
