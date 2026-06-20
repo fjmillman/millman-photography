@@ -1,4 +1,4 @@
-import { PrismaLibSql } from '@prisma/adapter-libsql';
+import { PrismaLibSql } from '@prisma/adapter-libsql/web';
 import { PrismaClient } from '@prisma/client-generated';
 // eslint-disable-next-line import-x/no-nodejs-modules
 import { inspect } from 'node:util';
