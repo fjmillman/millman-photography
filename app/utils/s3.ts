@@ -7,13 +7,13 @@ import {
   waitUntilObjectNotExists,
   type PutObjectRequest,
 } from '@aws-sdk/client-s3';
+import { awsCredentialsProvider } from '@vercel/functions/oidc';
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
-  },
+  credentials: awsCredentialsProvider({
+    roleArn: process.env.AWS_ROLE_ARN ?? '',
+  }),
   forcePathStyle: true,
   endpoint: 'http://localhost:4569',
 });

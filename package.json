@@ -26,9 +26,6 @@
     "format": "prettier --write 'app/**/*.{js,jsx,ts,tsx}'",
     "format:fix": "npm run format -- --write"
   },
-  "prisma": {
-    "seed": "vite-node prisma/seed.ts"
-  },
   "lint-staged": {
     "app/**/*.{js,jsx,ts,tsx}": [
       "prettier --write",
@@ -36,16 +33,19 @@
     ]
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.7.4",
-    "@aws-sdk/client-s3": "^3.750.0",
-    "@libsql/client": "^0.8.1",
+    "@auth/prisma-adapter": "^2.10.0",
+    "@aws-sdk/client-s3": "^3.879.0",
+    "@aws-sdk/s3-presigned-post": "^3.879.0",
+    "@aws-sdk/signature-v4-crt": "^3.879.0",
+    "@libsql/client": "^0.15.14",
     "@mdx-js/rollup": "^3.1.0",
     "@mjackson/form-data-parser": "^0.7.0",
-    "@prisma/adapter-libsql": "^6.4.1",
-    "@prisma/client": "^6.4.1",
+    "@prisma/adapter-libsql": "^6.15.0",
+    "@prisma/client": "^6.15.0",
     "@radix-ui/react-dialog": "^1.1.6",
     "@react-router/fs-routes": "^7.2.0",
     "@react-router/node": "^7.2.0",
+    "@vercel/functions": "^2.2.13",
     "bcryptjs": "^3.0.2",
     "clsx": "^2.1.1",
     "cuid": "^3.0.0",
@@ -78,7 +78,7 @@
     "lint-staged": "^15.4.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.5.2",
-    "prisma": "^6.4.1",
+    "prisma": "^6.15.0",
     "serverless": "^4.6.4",
     "serverless-offline": "^14.4.0",
     "serverless-s3-local": "^0.8.5",

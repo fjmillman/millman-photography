@@ -4,10 +4,29 @@ import { genSaltSync, hashSync } from 'bcryptjs';
 import cuid from 'cuid';
 import { createReadStream } from 'fs';
 import path from 'path';
+import { inspect } from "node:util";
 
 import { deleteObject, listObjects, uploadObject } from '../app/utils/s3';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient().$extends({
+    query: {
+      $allModels: {
+        async $allOperations({ operation, model, args, query }) {
+          const start = performance.now();
+          const result = await query(args);
+          const end = performance.now();
+          const time = end - start;
+          console.log(
+            inspect(
+              { model, operation, time, args },
+              { showHidden: false, depth: null, colors: true }
+            )
+          );
+          return result;
+        },
+      },
+    },
+  });
 
 async function main() {
   const userFixtures = [{
@@ -56,10 +75,10 @@ async function main() {
   }
 
   const clearImagesFromS3 = async () => {
-    const objects = await listObjects(process.env.S3_BUCKET_NAME ?? '', 3);
+    const objects = await listObjects(process.env.AWS_BUCKET_NAME ?? '', 3);
 
     for (const object of objects ?? []) {
-      await deleteObject(process.env.S3_BUCKET_NAME ?? '', object)
+      await deleteObject(process.env.AWS_BUCKET_NAME ?? '', object)
     }
   }
 
@@ -67,7 +86,7 @@ async function main() {
     const filepath = path.join(__dirname, `../app/images/${filename}`);
     const image = createReadStream(filepath)
   
-    const bucketName = process.env.S3_BUCKET_NAME ?? '';
+    const bucketName = process.env.AWS_BUCKET_NAME ?? '';
     const key = `${cuid()}.${filename.split('.').slice(-1)[0]}`;
     const url = await uploadObject(bucketName, key, image);
     if (!url) {

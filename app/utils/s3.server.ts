@@ -8,7 +8,7 @@ const uploadHandler = async (fileUpload: FileUpload) => {
     throw new Error('Filename is missing');
   }
 
-  const bucketName = process.env.S3_BUCKET_NAME ?? '';
+  const bucketName = process.env.AWS_BUCKET_NAME ?? '';
   const key = `${cuid()}.${fileUpload.fieldName.split('.').slice(-1)[0]}`;
   const url = await uploadObject(bucketName, key, fileUpload.stream());
 
@@ -27,7 +27,7 @@ export const uploadImage = async (request: Request) => {
 };
 
 export const deleteImage = async (location: string) => {
-  const bucketName = process.env.S3_BUCKET_NAME ?? '';
+  const bucketName = process.env.AWS_BUCKET_NAME ?? '';
   const key = location.split('/').slice(-1)[0];
 
   await deleteObject(bucketName, key);

@@ -1,13 +1,13 @@
-import { createClient } from '@libsql/client';
 import { PrismaLibSQL } from '@prisma/adapter-libsql';
 import { PrismaClient } from '@prisma/client-generated';
+// eslint-disable-next-line import-x/no-nodejs-modules
+import { inspect } from 'node:util';
 
 const createPrismaClient = (errorFormat: 'minimal' | 'pretty') => {
-  const libsql = createClient({
+  const adapter = new PrismaLibSQL({
     url: process.env.TURSO_DATABASE_URL ?? '',
     authToken: process.env.TURSO_AUTH_TOKEN ?? '',
   });
-  const adapter = new PrismaLibSQL(libsql);
 
   return new PrismaClient({
     adapter,
@@ -15,14 +15,12 @@ const createPrismaClient = (errorFormat: 'minimal' | 'pretty') => {
   }).$extends({
     query: {
       $allModels: {
-        async $allOperations({ operation, args, query }) {
+        async $allOperations({ operation, model, args, query }) {
+          const start = performance.now();
           const result = await query(args);
-
-          // Synchronize the embedded replica after any write operation
-          if (['create', 'update', 'delete'].includes(operation)) {
-            await libsql.sync();
-          }
-
+          const end = performance.now();
+          const time = end - start;
+          console.log(inspect({ model, operation, time, args }, { showHidden: false, depth: null, colors: true }));
           return result;
         },
       },
