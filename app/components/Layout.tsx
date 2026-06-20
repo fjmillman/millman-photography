@@ -1,4 +1,4 @@
-import type { User } from '@prisma/client';
+import type { User } from '@prisma/client-generated';
 import type { FC, PropsWithChildren } from 'react';
 
 import Header from './Header';

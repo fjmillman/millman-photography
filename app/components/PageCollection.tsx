@@ -1,4 +1,5 @@
-import type { Image } from '@prisma/client';
+import type { Image } from '@prisma/client-generated';
+import type { ReactNode } from 'react';
 
 import CardCollection from './CardCollection';
 import Pagination from './Pagination';
@@ -8,8 +9,8 @@ interface Props<T> {
   entities: T[];
   selectKey: (entity: T) => string;
   selectImage: (entity: T) => Image;
-  renderContent: (entity: T) => JSX.Element;
-  fallback: JSX.Element;
+  renderContent: (entity: T) => ReactNode;
+  fallback: ReactNode;
   currentPage: number;
   totalPages: number;
   onPagination: (page: number) => void;

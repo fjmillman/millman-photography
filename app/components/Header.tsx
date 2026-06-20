@@ -1,8 +1,8 @@
-import type { User } from '@prisma/client';
+import type { User } from '@prisma/client-generated';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Link, useSubmit, useTransition } from '@remix-run/react';
 import type { FC } from 'react';
 import { useState } from 'react';
+import { Link, useFetcher } from 'react-router';
 
 import useWindowWidth from '~/hooks/useWindowWidth';
 import closeIcon from '~/icons/close-icon.svg';
@@ -13,39 +13,45 @@ import NavigationButton from './Buttons/NavigationButton';
 import LoginModal from './LoginModal';
 import NavigationBar from './NavigationBar';
 
-type Props = {
+interface Props {
   user: User | null;
-};
+}
 
 const Header: FC<Props> = ({ user }) => {
   const width = useWindowWidth();
 
-  const submit = useSubmit();
-  const { state } = useTransition();
+  const fetcher = useFetcher();
+  const busy = fetcher.state !== 'idle';
 
   const [open, setOpen] = useState(false);
 
   const authenticationButton = user ? (
     <NavigationButton
-      onClick={() => submit(null, { method: 'post', action: '/logout' })}
+      onClick={() => fetcher.submit(null, { method: 'post', action: '/logout' })}
       ariaLabel="Log out"
-      disabled={state === 'submitting'}
+      disabled={busy}
     >
-      {state === 'submitting' ? 'Logging out' : 'Logout'}
+      {busy ? 'Logging out' : 'Logout'}
     </NavigationButton>
   ) : (
     <LoginModal />
   );
 
   return (
-    <header className="sticky t-0 p-4 bg-white shadow-lg">
-      <div className="flex flex-row align-center justify-between max-w-screen-lg m-auto">
+    <header className="sticky t-0 p-4 bg-white shadow-lg ">
+      <div className="flex flex-row align-center items-center justify-between max-w-screen-lg m-auto">
         <Link to="/">
           <img src={logo} alt="Millman Photography Logo" width={125} />
         </Link>
         {width < 1028 ? (
           <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger onClick={() => setOpen(true)} className="w-8 p-1 shadow-md" aria-label="Open Menu">
+            <Dialog.Trigger
+              onClick={() => {
+                setOpen(true);
+              }}
+              className="w-8 p-1 shadow-md"
+              aria-label="Open Menu"
+            >
               <img src={menuIcon} alt="menu" />
             </Dialog.Trigger>
             <Dialog.Portal>
@@ -61,7 +67,12 @@ const Header: FC<Props> = ({ user }) => {
                     <NavigationBar />
                   </div>
                   <div className="flex-shrink">{authenticationButton}</div>
-                  <Dialog.Close onClick={() => setOpen(false)} className="absolute top-2 right-2">
+                  <Dialog.Close
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                    className="absolute top-2 right-2"
+                  >
                     <img src={closeIcon} alt="close icon" />
                   </Dialog.Close>
                 </div>

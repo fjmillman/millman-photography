@@ -1,15 +1,13 @@
-import type { Post, Image, ImageOnPosts, Tag, TagOnPosts } from '@prisma/client';
-import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData, useSubmit, useTransition } from '@remix-run/react';
+import { Status } from '@prisma/client-generated';
+import type { Post, Image, ImageOnPosts, Tag, TagOnPosts } from '@prisma/client-generated';
+import { redirect, useFetcher } from 'react-router';
 
 import MiniPreview from '~/components/MiniPreview';
 import PageCollection from '~/components/PageCollection';
 import PageHeader from '~/components/PageHeader';
 import prisma from '~/utils/prisma.server';
-import { unserializePost } from '~/utils/serialization';
+
+import type { Route } from './+types/posts';
 
 export type PostWithTagsAndImages = Post & {
   tags: (TagOnPosts & {
@@ -20,14 +18,7 @@ export type PostWithTagsAndImages = Post & {
   })[];
 };
 
-type Data = {
-  posts: PostWithTagsAndImages[];
-  page: number;
-  size: number;
-  total: number;
-};
-
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader = async ({ params }: Route.LoaderArgs) => {
   const page = params.page ? parseInt(params.page) : 1;
   const size = params.size ? parseInt(params.size) : 9;
 
@@ -38,7 +29,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   const totalPages = total > 0 ? Math.ceil(total / size) : 1;
 
   if (page > totalPages) {
-    return redirect(`/posts?page=${totalPages}`);
+    return redirect(`/posts?page=${totalPages.toString()}`);
   }
 
   const posts = await prisma.post.findMany({
@@ -51,24 +42,25 @@ export const loader: LoaderFunction = async ({ params }) => {
     skip: (page - 1) * size,
   });
 
-  return json<Data>({ posts, page, size, total });
+  return { posts, page, size, total };
 };
 
-export const meta: MetaFunction = () => ({
-  title: 'Posts - Millman Photography',
-});
+export const meta = () => [
+  {
+    title: 'Posts - Millman Photography',
+  },
+];
 
-const Posts = () => {
-  const { posts: serializedPosts, page, size, total } = useLoaderData<Data>();
-
-  const posts = serializedPosts.map((post) => unserializePost(post));
+const Posts = ({ loaderData }: Route.ComponentProps) => {
+  const { posts, page, size, total } = loaderData;
 
   const totalPages = Math.ceil(total / size);
 
-  const submit = useSubmit();
-  const { state } = useTransition();
+  const fetcher = useFetcher<typeof loader>();
+  const busy = fetcher.state !== 'idle';
 
-  const onPagination = (page: number) => submit(null, { method: 'get', action: `/posts?page=${page}` });
+  const onPagination = (page: number) =>
+    fetcher.submit(null, { method: 'get', action: `/posts?page=${page.toString()}` });
 
   return (
     <>
@@ -76,7 +68,7 @@ const Posts = () => {
         <p>Check out my posts!</p>
       </PageHeader>
       <PageCollection<PostWithTagsAndImages>
-        isLoading={state === 'submitting'}
+        isLoading={busy}
         entities={posts}
         selectKey={(post: PostWithTagsAndImages) => post.slug}
         selectImage={(post: PostWithTagsAndImages) => post.images[0].image}

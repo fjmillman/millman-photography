@@ -1,16 +1,15 @@
-import { Form, useTransition } from '@remix-run/react';
-import type { FC } from 'react';
+import { useFetcher } from 'react-router';
 
-type Props = {
-  formId: string;
-};
+export const LOGIN_FORM_ID = 'login-form';
 
-const LoginForm: FC<Props> = ({ formId }) => {
-  const { state } = useTransition();
+const LoginForm = () => {
+  const formId = LOGIN_FORM_ID;
+  const fetcher = useFetcher({ key: formId });
+  const busy = fetcher.state !== 'idle';
 
   return (
-    <Form id={formId} method="post" action="/login">
-      <fieldset disabled={state === 'submitting'}>
+    <fetcher.Form id={formId} method="post" action="/login">
+      <fieldset disabled={busy}>
         <label className="mb-24">
           <p className="w-full mb-2">Email</p>
           <input
@@ -18,7 +17,7 @@ const LoginForm: FC<Props> = ({ formId }) => {
             name="email"
             placeholder="Email"
             type="email"
-            autoComplete="yes"
+            autoComplete="email"
             required
           />
         </label>
@@ -29,12 +28,12 @@ const LoginForm: FC<Props> = ({ formId }) => {
             name="password"
             placeholder="Password"
             type="password"
-            autoComplete="yes"
+            autoComplete="none"
             required
           />
         </label>
       </fieldset>
-    </Form>
+    </fetcher.Form>
   );
 };
 

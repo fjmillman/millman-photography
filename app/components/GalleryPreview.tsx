@@ -1,15 +1,15 @@
-import type { Tag } from '@prisma/client';
+import type { Tag } from '@prisma/client-generated';
 import type { FC } from 'react';
 
 import NavigationLink from './Buttons/NavigationLink';
 import Tags from './Tags';
 
-type Props = {
+interface Props {
   title: string;
   description: string;
   tags: Tag[];
   slug: string;
-};
+}
 
 const GalleryPreview: FC<Props> = ({ title, description, tags, slug }) => (
   <>

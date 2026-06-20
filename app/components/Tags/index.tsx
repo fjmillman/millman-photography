@@ -1,11 +1,11 @@
-import type { Tag as TagType } from '@prisma/client';
+import type { Tag as TagType } from '@prisma/client-generated';
 import type { FC } from 'react';
 
 import Tag from './Tag';
 
-type Props = {
+interface Props {
   tags: TagType[];
-};
+}
 
 const Tags: FC<Props> = ({ tags }) => (
   <div className="flex flex-row">

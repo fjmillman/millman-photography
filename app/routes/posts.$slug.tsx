@@ -1,7 +1,4 @@
-import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction, RouteComponent } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Status } from '@prisma/client-generated';
 import { getMDXComponent } from 'mdx-bundler/client';
 import { useMemo } from 'react';
 
@@ -9,21 +6,18 @@ import PageHeader from '~/components/PageHeader';
 import bundleMDX from '~/utils/bundleMDX.server';
 import prisma from '~/utils/prisma.server';
 
-export type Frontmatter = {
+import type { Route } from './+types/posts.$slug';
+
+export interface Frontmatter {
   title: string;
   description: string;
-};
+}
 
-type Data = {
-  code: string;
-  frontmatter: Frontmatter;
-};
-
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader = async ({ params }: Route.LoaderArgs) => {
   const { slug } = params;
 
   if (!slug) {
-    throw new Response('Bad Request', {
+    return new Response('Bad Request', {
       status: 400,
     });
   }
@@ -33,7 +27,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   });
 
   if (!post) {
-    throw new Response('Not Found', {
+    return new Response('Not Found', {
       status: 404,
     });
   }
@@ -42,15 +36,17 @@ export const loader: LoaderFunction = async ({ params }) => {
     source: post.content,
   });
 
-  return json<Data>({ code, frontmatter });
+  return { code, frontmatter };
 };
 
-export const meta: MetaFunction = ({ data }) => ({
-  title: `${data.frontmatter.title} - Millman Photography`,
-});
+export const meta = ({ data }: Route.MetaArgs) => [
+  {
+    title: `${data.frontmatter.title} - Millman Photography`,
+  },
+];
 
-const Slug: RouteComponent = () => {
-  const { code, frontmatter } = useLoaderData<Data>();
+const Slug = ({ loaderData }: Route.ComponentProps) => {
+  const { code, frontmatter } = loaderData;
 
   const MDX = useMemo(() => getMDXComponent(code), [code]);
 

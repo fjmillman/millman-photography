@@ -1,18 +1,22 @@
-import type { ActionFunction, LoaderFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
-import { json } from '@remix-run/node';
+import { data, redirect } from 'react-router';
 
 import type { LoginFormData } from '~/utils/auth.server';
 import { login } from '~/utils/auth.server';
 
-export const action: ActionFunction = async ({ request }) => {
+import type { Route } from './+types/login';
+
+export interface ErrorResponseData {
+  error: string;
+}
+
+export const action = async ({ request }: Route.ActionArgs) => {
   const formData = await request.formData();
 
   const email = formData.get('email');
   const password = formData.get('password');
 
   if (typeof email !== 'string' || typeof password !== 'string') {
-    return json({ error: `Invalid Form Data` }, { status: 400 });
+    return data<ErrorResponseData>({ error: `Invalid Form Data` }, { status: 400 });
   }
 
   const loginFormData: LoginFormData = { email, password };
@@ -20,4 +24,4 @@ export const action: ActionFunction = async ({ request }) => {
   return await login(loginFormData);
 };
 
-export const loader: LoaderFunction = async () => redirect('/');
+export const loader = () => redirect('/');

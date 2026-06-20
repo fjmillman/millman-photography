@@ -1,118 +1,100 @@
-import type { User } from '@prisma/client';
-import type {
-  ErrorBoundaryComponent,
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-  RouteComponent,
-} from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch, useLoaderData } from '@remix-run/react';
-import type { CatchBoundaryComponent } from '@remix-run/react/dist/routeModules';
+import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
 import { getUser } from '~/utils/auth.server';
 
-import Layout from './components/Layout';
-import styles from './styles/app.css';
+import type { Route } from './+types/root';
+import AppLayout from './components/Layout';
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: 'Millman Photography',
-  viewport: 'width=device-width,initial-scale=1',
-});
+import './app.css';
 
-export const links: LinksFunction = () => {
-  return [
-    { rel: 'icon', href: '/favicon.ico' },
-    { rel: 'stylesheet', href: styles },
-  ];
-};
+export const links: Route.LinksFunction = () => [
+  { rel: 'icon', href: '/favicon.ico' },
+  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+  {
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
+  },
+];
 
-type Data = {
-  ENV: {};
-  user: User | null;
-};
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta title="Millman Photography" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   const user = await getUser(request);
 
-  return json<Data>({
+  if (user instanceof Response) {
+    return user;
+  }
+
+  return {
     ENV: {},
     user,
-  });
+  };
 };
 
-const App: RouteComponent = () => {
-  const { ENV, user: serializedUser } = useLoaderData<Data>();
-
-  const user: User | null = serializedUser
-    ? {
-        ...serializedUser,
-        createdAt: new Date(serializedUser.createdAt),
-        updatedAt: new Date(serializedUser.updatedAt),
-      }
-    : null;
+const App = ({ loaderData }: Route.ComponentProps) => {
+  const { ENV, user } = loaderData;
 
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <Layout user={user}>
-          <Outlet />
-        </Layout>
-        <div id="portal-root" />
-        <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(ENV)}`,
-          }}
-        />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+    <>
+      <AppLayout user={user}>
+        <Outlet />
+      </AppLayout>
+      <div id="portal-root" />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.ENV = ${JSON.stringify(ENV)}`,
+        }}
+      />
+    </>
   );
 };
 
-export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-  console.error(error);
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  let message = 'Oops!';
+  let details = 'An unexpected error occurred.';
+  let stack: string | undefined;
+
+  if (isRouteErrorResponse(error)) {
+    message = error.status === 404 ? '404' : 'Error';
+    details = error.status === 404 ? 'The requested page could not be found.' : error.statusText || details;
+  } else if (import.meta.env.DEV && error && error instanceof Error) {
+    details = error.message;
+    stack = error.stack;
+  }
 
   return (
-    <html lang="en">
-      <head>
-        <title>Oh no!</title>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <p>Oh no!</p>
-        <Scripts />
-      </body>
-    </html>
+    <main className="pt-16 p-4 container mx-auto">
+      <h1>{message}</h1>
+      <p>{details}</p>
+      {stack && (
+        <pre className="w-full p-4 overflow-x-auto">
+          <code>{stack}</code>
+        </pre>
+      )}
+    </main>
   );
-};
-
-export const CatchBoundary: CatchBoundaryComponent = () => {
-  const caught = useCatch();
-
-  return (
-    <html lang="en">
-      <head>
-        <title>Oops!</title>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <h1>
-          {caught.status} {caught.statusText}
-        </h1>
-        <Scripts />
-      </body>
-    </html>
-  );
-};
+}
 
 export default App;

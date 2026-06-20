@@ -1,22 +1,40 @@
-import type { Tag, User, Image } from '@prisma/client';
-import { Status } from '@prisma/client';
-import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt';
+import type { Tag, User, Image } from '@prisma/client-generated';
+import { Status, PrismaClient } from '@prisma/client-generated';
+import { PrismaLibSql } from '@prisma/adapter-libsql/web';
+import { genSaltSync, hashSync } from 'bcryptjs';
 import cuid from 'cuid';
-import { readFileSync } from 'fs';
+import { createReadStream } from 'fs';
 import path from 'path';
+import { inspect } from "node:util";
 
-import s3 from '../app/utils/s3';
+import { deleteObject, listObjects, uploadObject } from '../app/utils/s3';
 
-const prisma = new PrismaClient()
+const adapter = new PrismaLibSql({
+  url: process.env.TURSO_DATABASE_URL ?? '',
+  authToken: process.env.TURSO_AUTH_TOKEN ?? '',
+});
+
+const prisma = new PrismaClient({ adapter }).$extends({
+    query: {
+      $allModels: {
+        async $allOperations({ operation, model, args, query }) {
+          const start = performance.now();
+          const result = await query(args);
+          const end = performance.now();
+          const time = end - start;
+          console.log(
+            inspect(
+              { model, operation, time, args },
+              { showHidden: false, depth: null, colors: true }
+            )
+          );
+          return result;
+        },
+      },
+    },
+  });
 
 async function main() {
-  await prisma.user.deleteMany()
-  await prisma.tag.deleteMany()
-  await prisma.image.deleteMany()
-  await prisma.post.deleteMany()
-  await prisma.gallery.deleteMany()
-
   const userFixtures = [{
     email: 'admin@millmanphotography.co.uk',
     password: 'abc123',
@@ -25,7 +43,7 @@ async function main() {
     isAdmin: true,
   }]
 
-  const salt = await bcrypt.genSalt(10);
+  const salt = genSaltSync(10);
 
   const users = await Promise.all(userFixtures.map(async ({ password, ...user}) => {
     return await prisma.user.upsert({
@@ -33,7 +51,7 @@ async function main() {
       update: {},
       create: {
         ...user,
-        password: await bcrypt.hash(password, salt),
+        password: hashSync(password, salt),
       },
     })
   }));
@@ -63,45 +81,25 @@ async function main() {
   }
 
   const clearImagesFromS3 = async () => {
-    const { Contents } = await s3
-      .listObjects({
-        Bucket: process.env.S3_BUCKET_NAME || '',
-      })
-      .promise();
+    const objects = await listObjects(process.env.AWS_BUCKET_NAME ?? '', 3);
 
-    if (!Contents) {
-      return
-    }
-
-    for (const Content of Contents) {
-      const { Key } = Content
-      if (!Key) {
-        continue
-      }
-
-      await s3
-        .deleteObject({
-          Bucket: process.env.S3_BUCKET_NAME || '',
-          Key,
-        })
-        .promise();
+    for (const object of objects ?? []) {
+      await deleteObject(process.env.AWS_BUCKET_NAME ?? '', object)
     }
   }
 
   const uploadImageToS3 =  async (filename: string) => {
     const filepath = path.join(__dirname, `../app/images/${filename}`);
-    const image = await readFileSync(filepath)
+    const image = createReadStream(filepath)
   
-    const { Location } = await s3
-      .upload({
-        Bucket: process.env.S3_BUCKET_NAME || '',
-        Key: `${cuid()}.${filename.split('.').slice(-1)}`,
-        Body: image,
-        ContentType: 'image/jpg',
-      })
-      .promise();
+    const bucketName = process.env.AWS_BUCKET_NAME ?? '';
+    const key = `${cuid()}.${filename.split('.').slice(-1)[0]}`;
+    const url = await uploadObject(bucketName, key, image);
+    if (!url) {
+      throw new Error('Failed to upload object')
+    }
 
-    return Location;
+    return url;
   }
 
   await clearImagesFromS3()
@@ -227,7 +225,7 @@ main()
   .then(async () => {
     await prisma.$disconnect()
   })
-  .catch(async (e) => {
+  .catch(async (e: unknown) => {
     console.error(e)
     await prisma.$disconnect()
     process.exit(1)

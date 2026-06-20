@@ -1,15 +1,13 @@
-import type { Gallery, Image, ImageOnGalleries, Tag, TagOnGalleries } from '@prisma/client';
-import { Status } from '@prisma/client';
-import type { LoaderFunction, MetaFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData, useSubmit, useTransition } from '@remix-run/react';
+import { Status } from '@prisma/client-generated';
+import type { Gallery, Image, ImageOnGalleries, Tag, TagOnGalleries } from '@prisma/client-generated';
+import { redirect, useFetcher } from 'react-router';
 
 import MiniPreview from '~/components/MiniPreview';
 import PageCollection from '~/components/PageCollection';
 import PageHeader from '~/components/PageHeader';
 import prisma from '~/utils/prisma.server';
-import { unserializeGallery } from '~/utils/serialization';
+
+import type { Route } from './+types/galleries';
 
 export type GalleryWithTagsAndImages = Gallery & {
   tags: (TagOnGalleries & {
@@ -20,14 +18,7 @@ export type GalleryWithTagsAndImages = Gallery & {
   })[];
 };
 
-type Data = {
-  galleries: GalleryWithTagsAndImages[];
-  page: number;
-  size: number;
-  total: number;
-};
-
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader = async ({ params }: Route.LoaderArgs) => {
   const page = params.page ? parseInt(params.page) : 1;
   const size = params.size ? parseInt(params.size) : 9;
 
@@ -38,7 +29,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   const totalPages = total > 0 ? Math.ceil(total / size) : 1;
 
   if (page > totalPages) {
-    return redirect(`/galleries?page=${totalPages}`);
+    return redirect(`/galleries?page=${totalPages.toString()}`);
   }
 
   const galleries = await prisma.gallery.findMany({
@@ -51,24 +42,25 @@ export const loader: LoaderFunction = async ({ params }) => {
     skip: (page - 1) * size,
   });
 
-  return json<Data>({ galleries, page, size, total });
+  return { galleries, page, size, total };
 };
 
-export const meta: MetaFunction = () => ({
-  title: 'Galleries - Millman Photography',
-});
+export const meta = () => [
+  {
+    title: 'Galleries - Millman Photography',
+  },
+];
 
-const Galleries = () => {
-  const { galleries: serializedGalleries, page, size, total } = useLoaderData<Data>();
-
-  const galleries = serializedGalleries.map((gallery) => unserializeGallery(gallery));
+const Galleries = ({ loaderData }: Route.ComponentProps) => {
+  const { galleries, page, size, total } = loaderData;
 
   const totalPages = Math.ceil(total / size);
 
-  const submit = useSubmit();
-  const { state } = useTransition();
+  const fetcher = useFetcher<Route.LoaderArgs>();
+  const busy = fetcher.state !== 'idle';
 
-  const onPagination = (page: number) => submit(null, { method: 'get', action: `/galleries?page=${page}` });
+  const onPagination = (page: number) =>
+    fetcher.submit(null, { method: 'get', action: `/galleries?page=${page.toString()}` });
 
   return (
     <>
@@ -76,7 +68,7 @@ const Galleries = () => {
         <p>Check out my galleries!</p>
       </PageHeader>
       <PageCollection<GalleryWithTagsAndImages>
-        isLoading={state === 'submitting'}
+        isLoading={busy}
         entities={galleries}
         selectKey={(gallery: GalleryWithTagsAndImages) => gallery.slug}
         selectImage={(gallery: GalleryWithTagsAndImages) => gallery.images[0]?.image}

@@ -1,5 +1,5 @@
-import { json, createCookieSessionStorage, redirect } from '@remix-run/node';
-import bcrypt from 'bcrypt';
+import { compareSync } from 'bcryptjs';
+import { data, createCookieSessionStorage, redirect } from 'react-router';
 
 import prisma from './prisma.server';
 
@@ -9,7 +9,11 @@ if (!sessionSecret) {
   throw new Error('SESSION_SECRET must be set');
 }
 
-const storage = createCookieSessionStorage({
+interface SessionData {
+  userId: number;
+}
+
+const storage = createCookieSessionStorage<SessionData>({
   cookie: {
     name: 'millman-photography-session',
     secure: process.env.NODE_ENV === 'production',
@@ -33,18 +37,18 @@ export const createUserSession = async (userId: number, redirectTo: string) => {
   });
 };
 
-export type LoginFormData = {
+export interface LoginFormData {
   email: string;
   password: string;
-};
+}
 
 export const login = async ({ email, password }: LoginFormData) => {
   const user = await prisma.user.findUnique({
     where: { email },
   });
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return json({ error: `Incorrect login` }, { status: 400 });
+  if (!user || !compareSync(password, user.password)) {
+    return data({ error: `Incorrect login` }, { status: 400 });
   }
 
   return createUserSession(user.id, '/');
@@ -55,7 +59,7 @@ export async function requireUserId(request: Request, redirectTo: string = new U
   const userId = session.get('userId');
   if (!userId || typeof userId !== 'number') {
     const searchParams = new URLSearchParams([['redirectTo', redirectTo]]);
-    throw redirect(`/login?${searchParams}`);
+    return redirect(`/login?${searchParams}`);
   }
   return userId;
 }
@@ -83,7 +87,7 @@ export async function getUser(request: Request) {
     });
     return user;
   } catch {
-    throw logout(request);
+    return logout(request);
   }
 }
 

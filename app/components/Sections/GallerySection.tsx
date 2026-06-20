@@ -6,9 +6,9 @@ import NavigationLink from '../Buttons/NavigationLink';
 import CardCollection from '../CardCollection';
 import MiniPreview from '../MiniPreview';
 
-type Props = {
+interface Props {
   galleries: GalleryWithTagsAndImages[];
-};
+}
 
 const GallerySection: FC<Props> = ({ galleries }) => (
   <section className="bg-white shadow-md relative w-screen ml-[-50vw] left-1/2">

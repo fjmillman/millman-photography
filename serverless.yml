@@ -1,7 +1,7 @@
 service: serverless-s3-local
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs22.x
 plugins:
   - serverless-s3-local
   - serverless-offline
@@ -22,9 +22,10 @@ functions:
     handler: handler.webhook
     events:
       - http:
-          method: GET
-          path: /
+        method: GET
+        path: /
   s3hook:
     handler: handler.s3hook
     events:
       - s3: millman-photography
+        event: s3:*
