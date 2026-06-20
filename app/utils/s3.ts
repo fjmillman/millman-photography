@@ -7,7 +7,7 @@ import {
   waitUntilObjectNotExists,
   type PutObjectRequest,
 } from '@aws-sdk/client-s3';
-import { awsCredentialsProvider } from '@vercel/functions/oidc';
+import { awsCredentialsProvider } from '@vercel/oidc-aws-credentials-provider';
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,

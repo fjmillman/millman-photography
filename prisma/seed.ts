@@ -1,5 +1,6 @@
 import type { Tag, User, Image } from '@prisma/client-generated';
 import { Status, PrismaClient } from '@prisma/client-generated';
+import { PrismaLibSql } from '@prisma/adapter-libsql/web';
 import { genSaltSync, hashSync } from 'bcryptjs';
 import cuid from 'cuid';
 import { createReadStream } from 'fs';
@@ -8,7 +9,12 @@ import { inspect } from "node:util";
 
 import { deleteObject, listObjects, uploadObject } from '../app/utils/s3';
 
-const prisma = new PrismaClient().$extends({
+const adapter = new PrismaLibSql({
+  url: process.env.TURSO_DATABASE_URL ?? '',
+  authToken: process.env.TURSO_AUTH_TOKEN ?? '',
+});
+
+const prisma = new PrismaClient({ adapter }).$extends({
     query: {
       $allModels: {
         async $allOperations({ operation, model, args, query }) {
